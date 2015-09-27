@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="icon" href="images/logo.png">
+		<title>Appttendance</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/menucss.css" rel="stylesheet">
+		<link href="css/jquery-ui.min.css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		<style>
+			#wrapper{
+			  left: 0;
+			  margin: 0;
+			  overflow: hidden;
+			  position: relative;
+			}
+		
+			.menu {
+			  left: -285px;  /* start off behind the scenes */
+			  height: 100%;
+			  position: fixed;
+			  width: 200px;
+			  background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+				z-index: 1000;
+				margin-top: 16px;
+				height: auto;
+			}
+
+			.menu ul {
+			  border-top: 1px solid #636366;
+			  list-style: none;
+			  margin: 0;
+			  padding: 0;
+			}
+
+			.menu li {
+			  border-bottom: 1px solid #636366;
+			  font-family: 'Open Sans', sans-serif;
+			  line-height: 45px;
+			  padding-bottom: 3px;
+			  padding-left: 20px;
+			  padding-top: 3px;
+			}
+
+			.menu a {
+			  color: #fff;
+			  font-size: 15px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-close {
+			  cursor: pointer;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			}
+
+			.icon-menu {
+			  color: #fff;
+			  cursor: pointer;
+			  font-family: 'Open Sans', sans-serif;
+			  font-size: 16px;
+			  padding-bottom: 25px;
+			  padding-left: 25px;
+			  padding-top: 25px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+			
+			#alertMessage{
+				display: none;
+			}
+
+			.icon-menu i {
+			  margin-right: 5px;
+			}
+			
+			#studentHeader{
+				margin-top: 75px;
+				height: 115px;
+				color: black;
+			}
+			
+			h1{
+				font-size: 26px;
+			}
+			
+			h3{
+				font-size: 16px;
+				color: #777;
+				margin-top: 0px; 
+				margin-bottom: 10px;
+
+			}
+			
+			input{
+				margin: 5px;
+			}
+			
+			.smallglyph{
+				font-size: 10px;
+				display: inline;
+			}
+			
+			.scrollit {
+				overflow:scroll;
+				height:auto;
+			}
+			
+			.wrapdiv{
+				width: 99%;
+				background-color: white;
+				margin-top: 25px;
+				margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				padding: 10px;
+				border: 1px solid #dbe1e8;
+			}
+			
+			.titleCol{
+				background-color: #f9fafc;
+				width: 100%;
+				padding: 15px;
+				margin-top: -10px;
+				border-bottom: 2px solid lightblue;
+			}
+			#txtFirstName{
+				width: 150px;
+			}
+			
+			#txtLastName{
+				width: 180px;
+			}
+			
+			.form-control{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			#btnImport{
+				width: auto;
+				margin-left: 5px;
+				display: inline;
+				margin-top: -5px;
+			}
+			
+			.btn-center{
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.menu-glyph{
+				font-size: 1.2em;
+				color: white;
+			}
+			
+			#classtoadd{
+				width: 100px;
+				display: inline;
+			}
+			
+			@media(max-width:768px){
+				#btnImport{
+					display: none;
+				}
+			}
+			
+			@media(max-width: 420px){
+				.form-control{
+					width: 80%;
+				}
+				#txtLastName{
+					width: 80%;
+				}
+				
+				.glyphicon {
+					width: 10%;
+				}
+				.menu{
+					height: auto;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				$('body').css('display', 'none');
+				$('body').fadeIn(500);
+			
+				$('.icon-menu').click(function() {
+					$('.menu').toggle(function(){
+						$('.menu').animate({
+						  left: "0px"
+						}, 200);
+					});
+				  });
+				  
+				function newpage() {
+					window.location = newLocation;
+				}
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					event.preventDefault();
+					newLocation = 'index.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#txtnewPass').hide();
+				$('#btnOk').hide();
+				
+				$('#newpass').click(function(){
+					$('#txtnewPass').toggle(500);
+					$('#btnOk').toggle(500);
+				});
+		
+				console.log("It Works");
+				var id;
+				
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displayaccounts.php", function(data)
+         		{
+					$.each(data, function(key, value) {
+						$("#tblBody").append('<tr><td>'+value['userid']+'</td><td>'+value['username']+'</td><td>'+value['usertype']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button></td></tr>');					
+					});	
+					$('#example').dataTable();
+					var table = $('#example').DataTable();
+					
+					$('#example tbody').on( 'click', 'tr', function () {
+						if ( $(this).hasClass('selected') ) {
+							$(this).removeClass('selected');
+						}
+						else {
+							table.$('tr.selected').removeClass('selected');
+							$(this).addClass('selected');
+						}
+					});
+					
+					$('#example tbody').on('click', 'tr', function () {
+						id = $('td', this).eq(0).text();
+						email = $('td', this).eq(1).text();
+						password = $('td', this).eq(2).text();
+						
+						$("#disId").val(id);
+						$("#disEmail").val(email);
+						$("#disUsertype").val(password);
+						
+						$('#modalAlert').text('Are you sure you want to delete ' + id + '?');
+					});
+				});	
+				
+				var inpUser = $('#txtEmail');
+				var inpPass = $('#txtPassword');
+				
+				$('#btnSubmit').click(function(){
+					if(inpUser.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Username is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inpPass.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Password is required.');
+						msg.fadeIn(500).show();
+					}
+					else{
+						msg.html('<img src="images/ajax-loader.gif"> Updating database.');
+						msg.removeClass('alert alert-danger');
+						msg.addClass('alert alert-info');
+						msg.fadeIn(500).show();
+					
+						$.ajax({
+							type:'POST',
+							url:'http://gordoncollegeccs.edu.ph/appttendance/addaccount.php',
+							dataType: "html",  
+							data: $('#frmAddStudent').serialize(),
+							success:function(data) {
+								if(data) {   
+									msg.html('<span class="glyphicon glyphicon-info-sign smallglyph"></span> Account successfully added.');
+									msg.removeClass('alert alert-info');
+									msg.addClass('alert alert-success');
+									msg.fadeOut(500).hide();
+									location.reload(this);
+								} else {
+								
+								}
+							}
+						});
+					}
+				});
+				
+				$('#btnUpdate').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editaccount.php',
+						dataType: "html",  
+						data: $('#frmEdit').serialize(),
+						success:function(data) {
+							if(data) {  
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnOk').click(function(){
+					id = $('#disId').val();
+					newPass = $('#txtnewPass').val();
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editpassword.php',
+						dataType: "html",  
+						data: {disId: id, txtnewPass: newPass},
+						success:function(data) {
+							if(data) {  
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnConfirmDelete').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deleteaccount.php',
+						dataType: "html",  
+						data: 'delete_id='+id,
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				var msg = $('#alertMessage');
+				$('#frmImport').hide();
+				$('#btnImport').click(function(){
+					$('#frmImport').toggle(750);
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+			<div class="container icon-menu" id="banner">		
+					<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+				<div class="menu">
+					<!-- Menu -->
+					<ul>
+						<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="container" id="studentHeader">
+				<div class="row wrapdiv">
+					<div class="col-md-12">
+						<h1 class="text-left">Manage Accounts</h1>
+						<h3>Add, Modify, Remove user's account</h3>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="studentList">
+				<div class="row">
+					<div class="col-md-7" id="displayStudents">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Accounts</h3>
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example">
+										<thead>
+											<tr>
+												<th>Id</th>
+												<th>Email</th>
+												<th>Usertype</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody">
+											
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+					
+					<div class="col-md-5" style="margin-bottom: 75px;">
+						<div class="wrapdiv">
+							<div class="form">
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Account <button id="btnImport" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
+								<form class="form-horizontal well" action="importusers.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
+									<fieldset>
+										<legend>Import CSV/Excel file</legend>
+										<div class="control-group">
+											<div class="controls">
+												<input type="file" name="file" id="file" class="input-large">
+											</div>
+										</div>
+				 
+										<div class="control-group">
+											<div class="controls">
+											<button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								<p class="alert alert-danger" id="alertMessage"></p>
+								<form class="form-inline" id="frmAddStudent">
+									<table style="margin-left: 15px">
+										<tr>
+											<td><label for="email">Username: </label></td>
+											<td>
+												<input type="text" id="txtEmail" name="txtEmail" class="form-control" placeholder="Email">
+											</td>
+										</tr>
+										<tr>
+											<td><label for="password">Password: </label></td>
+											<td>
+												<input type="password" id="txtPassword" name="txtPassword" class="form-control" placeholder="Password">
+											</td>
+										</tr>
+										<tr>
+											<td><label for="usertype">Usertype: </label></td>
+											<td>
+												<select style="display: inline;" id="txtType" name="txtType" class="form-control" placeholder="Usertype">
+													<option>admin</option>
+													<option>student</option>
+													<option>staff</option>
+												</select>
+											</td>
+										</tr>
+									</table>
+								</form>
+								<button class="btn btn-primary" id="btnSubmit">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal -->
+			 <div class="modal fade" id="editModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						</div>
+						<div class="modal-body">
+								<form id="frmEdit">
+									<label>Id:</label> 
+									<input type="text" placeholder="ID" class="form-control btn-center" id="disId" name="disId">
+									<label>Email:</label>
+									<input type="text" placeholder="Email" class="form-control btn-center" id="disEmail" name="disEmail">
+									<label>Usertype:</label>
+									<input type="text" placeholder="Usertype" class="form-control btn-center" id="disUsertype" name="disUsertype">
+								</form>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" name="submit" class="btn btn-info form-control" id="btnUpdate" />
+							<button class="btn btn-info" id="newpass">Reset Password</button><input type="password" id="txtnewPass" name="txtnewPass" placeholder="New Password" class="form-control"><button class="btn btn-primary" id="btnOk">Ok</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="alertModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalHeader"></h4>
+						</div>
+						<div class="modal-body">
+							<p id="modalAlert"></p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-info form-controls" data-dismiss="modal" id="btnConfirmDelete">Yes</button>
+							<button class="btn btn-default" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+	</body>
+</html>

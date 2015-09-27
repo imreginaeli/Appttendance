@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="images/logo.png">
+		<title>Appttendance</title>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/menucss.css" rel="stylesheet">
+		<link href="css/jquery-ui.min.css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/typeahead.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		<style>
+			#wrapper{
+			  left: 0;
+			  margin: 0;
+			  overflow: hidden;
+			  position: relative;
+			}
+		
+			.menu {
+			  left: -285px;  /* start off behind the scenes */
+			  height: 100%;
+			  position: fixed;
+			  width: 200px;
+			  background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+				z-index: 1000;
+				margin-top: 16px;
+				height: auto;
+			}
+
+			.menu ul {
+			  border-top: 1px solid #636366;
+			  list-style: none;
+			  margin: 0;
+			  padding: 0;
+			}
+
+			.menu li {
+			  border-bottom: 1px solid #636366;
+			  font-family: 'Open Sans', sans-serif;
+			  line-height: 45px;
+			  padding-bottom: 3px;
+			  padding-left: 20px;
+			  padding-top: 3px;
+			  font-size: smaller;
+			}
+
+			.menu a {
+			  color: #fff;
+			  font-size: 15px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-close {
+			  cursor: pointer;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			}
+
+			.icon-menu {
+			  color: #fff;
+			  cursor: pointer;
+			  font-family: 'Open Sans', sans-serif;
+			  font-size: 16px;
+			  padding-bottom: 25px;
+			  padding-left: 25px;
+			  padding-top: 25px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-menu i {
+			  margin-right: 5px;
+			}
+			
+			#studentHeader{
+				margin-top: 75px;
+				height: 115px;
+				color: black;
+			}
+			
+			h1{
+				font-size: 26px;
+			}
+			
+			h3{
+				font-size: 16px;
+				color: #777;
+				margin-top: 0px; 
+				margin-bottom: 10px;
+
+			}
+			
+			input{
+				margin: 5px;
+			}
+			
+			.smallglyph{
+				font-size: 10px;
+				display: inline;
+			}
+			
+			.scrollit {
+				overflow:scroll;
+				height:auto;
+			}
+			
+			.wrapdiv{
+				width: 99%;
+				background-color: white;
+				margin-top: 25px;
+				margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				padding: 10px;
+				border: 1px solid #dbe1e8;
+			}
+			
+			.titleCol{
+				background-color: #f9fafc;
+				width: 100%;
+				padding: 15px;
+				margin-top: -10px;
+				border-bottom: 2px solid lightblue;
+			}
+			#txtFirstName{
+				width: 150px;
+			}
+			
+			#txtLastName{
+				width: 180px;
+			}
+			
+			.form-control{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			.btn-center{
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			#footer{
+				position: relative;
+				margin: 0 auto;
+			}
+			
+			.menu-glyph{
+				font-size: 1.2em;
+				color: white;
+			}
+			
+			#classtoadd{
+				width: 100px;
+				display: inline;
+			}
+			@media(max-width: 420px){
+				.form-control{
+					width: 80%;
+				}
+				#txtLastName{
+					width: 80%;
+				}
+				
+				.glyphicon {
+					width: 10%;
+				}
+				.menu{
+					height: auto;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				$('.icon-menu').click(function() {
+					$('.menu').toggle(function(){
+						$('.menu').animate({
+						  left: "0px"
+						}, 200);
+					});
+				  });
+				
+				$('#home').click(function(){
+					location.href="menu.html";
+				});
+				
+				$('#managestudents').click(function(){
+					location.href="manage-students.html";
+				});
+				
+				$('#manageclass').click(function(){
+					location.href="manage-class.html";
+				});
+				
+				$('#takeattendance').click(function(){
+					location.href="take-attendance.html";
+				});
+				
+				$('#genearatereport').click(function(){
+					location.href="generate-report.html";
+				});
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					location.href="index.html";
+				});
+				
+				$('#classtoadd').hide();
+				$('#okClass').hide();
+				$('#addtoclass').click(function(){
+					$('#classtoadd').toggle(500);
+					$('#okClass').toggle(500);
+				});
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displayclass.php", function(data)
+					{
+						$.each(data, function(key, value) {
+							$("#classtoadd").append('<option value='+value['id']+'>'+value['id']+'<option>');				
+						});	
+					});
+				console.log("It Works");
+				var id;
+				
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displaystudent.php", function(data)
+         		{
+					$.each(data, function(key, value) {
+						$("#tblBody").append('<tr><td>'+value['id']+'</td><td>'+value['lastname']+'</td><td>'+value['firstname']+'</td><td>'+value['course']+'</td><td>'+value['year']+'</td><td>'+value['contact']+'</td><td>'+value['email']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button></td></tr>');					
+					});	
+					$('#example').dataTable();
+					var table = $('#example').DataTable();
+					
+					$('#example tbody').on( 'click', 'tr', function () {
+						if ( $(this).hasClass('selected') ) {
+							$(this).removeClass('selected');
+						}
+						else {
+							table.$('tr.selected').removeClass('selected');
+							$(this).addClass('selected');
+						}
+					});
+					
+					$('#example tbody').on('click', 'tr', function () {
+						id = $('td', this).eq(0).text();
+						lastname = $('td', this).eq(1).text();
+						firstname = $('td', this).eq(2).text();
+						course = $('td', this).eq(3).text();
+						year = $('td', this).eq(4).text();
+						contact = $('td', this).eq(5).text();
+						email = $('td', this).eq(6).text();
+						
+						$("#disId").val(id);
+						$("#disLastname").val(lastname);
+						$("#disFirstname").val(firstname);
+						$("#disCourse").val(course);
+						$("#disYear").val(year);
+						$("#disContact").val(contact);
+						$("#disEmail").val(email);
+						
+						$('#modalAlert').text('Are you sure you want to delete ' + id + '?');
+					});
+				});	
+				
+				$('#okClass').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/addstudentclass.php',
+						dataType: "html",  
+						data: {studno: $('#disId').val(), lastname: $('#disLastname').val(), firstname: $('#disFirstname').val(), classid: $('#classtoadd').val()},
+						success:function(data) {						
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnSubmit').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/addstudent.php',
+						dataType: "html",  
+						data: $('#frmAddStudent').serialize(),
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnUpdate').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editstudent.php',
+						dataType: "html",  
+						data: $('#frmEdit').serialize(),
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnConfirmDelete').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deletestudent.php',
+						dataType: "html",  
+						data: 'delete_id='+id,
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+
+			});
+		</script>
+	</head>
+	
+	<body>
+			<div class="container icon-menu" id="banner">		
+					<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+				<div class="menu">
+					<!-- Menu -->
+					<ul>
+						<li id="home"><span class="glyphicon glyphicon-home menu-glyph"></span> Home</li>
+						<li id="managestudents"><span class="glyphicon glyphicon-user menu-glyph"></span> Manage Students</li>
+						<li id="manageclass"><span class="glyphicon glyphicon-list-alt menu-glyph" ></span> Manage Class</li>
+						<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Take attendance</li>
+						<li id="genearatereport"><span class="glyphicon glyphicon-file menu-glyph"></span> Generate Report</li>
+						<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="container" id="studentHeader">
+				<div class="row wrapdiv">
+					<div class="col-md-12">
+						<h1 class="text-left">Manage Students</h1>
+						<h3>Manage all your students' information</h3>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="studentList">
+				<div class="row">
+					<div class="col-md-7" id="displayStudents">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Student</h3>
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example">
+										<thead>
+											<tr>
+												<th>Student No.</th>
+												<th>Lastname</th>
+												<th>Firstname</th>
+												<th>Course</th>
+												<th>Year</th>
+												<th>Contact</th>
+												<th>Email</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody">
+											
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+					
+					<div class="col-md-5">
+						<div class="wrapdiv">
+							<div class="form">
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Student</h3>
+								<form class="form-inline" id="frmAddStudent">
+									<table style="margin-left: 15px">
+										<tr><td><label for="studno">Student No.: </label></td>
+											<td>
+												<input type="text" id="txtStudNo" name="txtStudNo" class="form-control" placeholder="Student Number">
+											</td>
+										</tr>
+										<tr><td><label for="fullname">Name: </label></td>
+											<td>
+												<input type="text" id="txtLastName" name="txtLastName" class="form-control" placeholder="Last Name">
+												<input type="text" id="txtFirstName" name="txtFirstName" class="form-control" placeholder="First Name">
+											</td>
+										</tr>
+										<tr>
+											<td><label for="courseyear">Course/Year: </label></td>
+											<td>
+												<select id="txtCourse" name="txtCourse" class="form-control" placeholder="Course">
+													<option>ACT</option>
+													<option>BSCS</option>
+													<option>BSIT</option>
+												</select>
+												<select id="txtYear" name="txtYear" class="form-control" min="1" max="4" placeholder="Year">
+													<option>1</option>
+													<option>2</option>
+													<option>3</option>
+													<option>4</option>
+												</select>
+											</td>
+										</tr>
+										<tr>
+											<td><label for="contact">Contact Details: </label></td>
+											<td><input type="text" id="txtContact" name="txtContact" class="form-control" placeholder="Contact"></td>
+										</tr>
+										<tr>
+											<td><label for="email">Email: </label></td>
+											<td><input type="email" id="txtEmail" name="txtEmail" class="form-control" placeholder="Email address"></td>
+										</tr>
+									</table>
+								</form>
+								<button class="btn btn-primary" id="btnSubmit">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal -->
+			 <div class="modal fade" id="editModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						</div>
+						<div class="modal-body">
+								<form id="frmEdit">
+									<label>Student No:</label> 
+									<input type="text" placeholder="ID" class="form-control btn-center" id="disId" name="disId">
+									<label>Last name:</label>
+									<input type="text" placeholder="Last name" class="form-control btn-center" id="disLastname" name="disLastname">
+									<label>First name:</label>
+									<input type="text" placeholder="First name" class="form-control btn-center" id="disFirstname" name="disFirstname">
+									<label>Course:</label>
+									<input type="text" placeholder="Course" class="form-control btn-center" id="disCourse" name="disCourse">
+									<label>Year:</label>
+									<input type="text" placeholder="Year" class="form-control btn-center" id="disYear" name="disYear">
+									<label>Contact:</label>
+									<input type="text" placeholder="Contact" class="form-control btn-center" id="disContact" name="disContact">
+									<label>Email:</label>
+									<input type="text" placeholder="Email" class="form-control btn-center" id="disEmail" name="disEmail">
+								</form>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" name="submit" class="btn btn-info form-control" id="btnUpdate" />
+							<button class="btn btn-info" id="addtoclass">Add to Class</button><select id="classtoadd" class="form-control"></select><button class="btn btn-primary" id="okClass">Ok</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="alertModal" role="dialog">
+				<div class="modal-dialog modal-sm">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalHeader"></h4>
+						</div>
+						<div class="modal-body">
+							<p id="modalAlert"></p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-info form-controls" data-dismiss="modal" id="btnConfirmDelete">Yes</button>
+							<button class="btn btn-default" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+	</body>
+</html>

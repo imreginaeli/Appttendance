@@ -1,0 +1,207 @@
+html, body{
+	width: 100%,
+	height: 100%;
+	background-color: #eaedf1;
+	font-size: 'Open Sans', sans-serif;
+}
+
+#banner{
+background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+	height: 75px;
+	width: 100%;
+	position: fixed;
+	z-index: 1000;
+	margin-top: -75px;
+	}
+
+#bannerheader{
+background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+	height: auto;
+	width: 100%;
+	}
+	
+#imglogo{
+			width: 150px;
+			margin-top: 50px;
+			margin-left: auto;
+			margin-right: auto;
+			display: block;
+			margin-bottom: 50px;
+		}
+
+h2{
+	font-size: 20px;
+}
+
+h4{
+	font-size: 16px;
+	color: white;
+}
+
+.wrapcol{
+	width: 95%;
+    background-color: #959595;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 10px;
+    margin-top: 25px;
+    border-radius: 5px;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+.menuheader{
+	text-align: center;
+	color: white;
+}
+
+.colglyphs{
+	background-color: #CACACA;
+	border-radius: 100%;
+	width: 140px;
+	height: 140px;
+	margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
+
+.colglyphs{
+    text-align: center;
+}
+.colglyphs span{
+    vertical-align: middle;
+    text-align: center;
+    margin-top: 30px;
+	color: white;
+}
+
+.glyphicon{
+	font-size: 5em;
+}
+
+.divinfo{
+	width: 70%;
+	text-align: center;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#footer {
+    background: linear-gradient(#275670, #122B41);
+    background: -moz-linear-gradient(#275670, #122B41);
+    background: -webkit-linear-gradient(#275670, #122B41);
+    background: -o-linear-gradient(#275670, #122B41);
+    background: -ms-linear-gradient(#275670, #122B41);
+    width: 100%;
+    height: auto;
+    color: white;
+    position: fixed;
+	margin-top: 20px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+	
+#footerglyph{
+	font-size: 1.5em;
+	text-align:center;
+	margin-left: auto;
+    margin-right: auto;
+    display: block;
+    margin-top: 15px;
+	margin-bottom: 15px;
+}
+
+#phone, #mail{
+	font-size: 1em;
+}
+
+#addglyph{
+	font-size: 1em;
+}
+
+.form-control, .btn{
+	border-radius:2px;
+}
+
+.modal{
+	margin-top: 100px;
+}
+
+.go-top {
+					position:fixed ;
+					bottom: 6em ; 
+					right : 2em ;
+					text-decoration: none;
+				color: white;
+				
+				font-size: 12px;
+				padding: 1em;
+				display: none;
+			}
+
+
+@media(max-width: 920px){
+	#footer {
+    background: linear-gradient(#275670, #122B41);
+    background: -moz-linear-gradient(#275670, #122B41);
+    background: -webkit-linear-gradient(#275670, #122B41);
+    background: -o-linear-gradient(#275670, #122B41);
+    background: -ms-linear-gradient(#275670, #122B41);
+    width: 100%;
+    height: auto;
+    color: white;
+    position: fixed;
+	margin-top: 20px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+}
+
+@media(max-width: 420px){
+	.wrapcol {
+    background-color: #959595;
+    margin-left: 0px; 
+    margin-right: 0px;
+    padding: 0px;
+    margin-top: 25px;
+    border-radius: 0px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+	@media (max-width: 420px){}
+	.colglyphs {
+			width: 80px;
+			height: 80px;
+		}
+	.glyphicon{
+		width: 50%;
+	}
+	.colglyphs span {
+    vertical-align: middle;
+    text-align: center;
+    margin-left: -9px;
+    margin-top: 15px;
+    color: white;
+    font-size: 3.5em;
+}
+.menuheader {
+    text-align: center;
+    color: white;
+    font-size: 12px;
+}
+	
+	hr, .divinfo{
+		display: none;
+	}
+}

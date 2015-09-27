@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="images/logo.png">
+    <title>Appttendance</title>
+	<link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/menucss.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/main.js"></script>
+	<script>
+		$(document).ready(function(){
+			user = localStorage.getItem("userlog");
+			
+			$('#userHere').html(user);
+		});
+	</script>
+  </head>
+  <body>
+		<div id="mainpage">
+			<div class="container" id="bannerheader">
+				<img src="images/logoccs.png" class="img-responsive" id="imglogo"/>
+			</div>
+			<p class="alert alert-info text-center" id="alertMessage">Welcome, <span id="userHere"></span>!</p>
+			<div class="container" id="divMenu">
+				<div class="row">
+					<div class="col-md-4 col-xs-6" id="manageclass">
+						<div class="wrapcol">
+							<div class="colglyphs">
+								<span class="glyphicon glyphicon-list-alt"></span>
+							</div>
+							<h2 class="menuheader">Manage Classes</h2>
+							<hr/>
+							<div class="divinfo"><h4 class="text-center">Add new class, modify each class' details such as schedules, class name and number of students.</h4></div>
+						</div>
+					</div>
+					
+					<div class="col-md-4 col-xs-6" id="takeattendance">
+						<div class="wrapcol">
+							<div class="colglyphs">
+								<span class="glyphicon glyphicon-check"></span>
+							</div>
+							<h2 class="menuheader">Take attendance</h2>
+							<hr/>
+							<div class="divinfo"><h4 class="text-center">Check student status in class. Students are can be marked as absent, present or tardy.</h4></div>
+						</div>
+					</div>
+					
+					<div class="col-md-4 col-xs-12" id="generatereport"style="margin-bottom: 75px;">
+						<div class="wrapcol">
+							<div class="colglyphs">
+								<span class="glyphicon glyphicon-file"></span>
+							</div>
+							<h2 class="menuheader">Generate Report</h2>
+							<hr/>
+							<div class="divinfo"><h4 class="text-center">Export recorded attendance into csv by student, by class or by a specified date range. </h4></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+					<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+		</div>
+  </body>
+</html>

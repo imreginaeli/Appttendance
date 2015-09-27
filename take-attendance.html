@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="icon" href="images/logo.png">
+		<title>Appttendance</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/menucss.css" rel="stylesheet">
+		<link href="css/jquery-ui.min.css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/typeahead.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		<script src="js/jquery.tabletojson.min.js"></script>
+		<style>
+
+			#wrapper{
+			  left: 0;
+			  margin: 0;
+			  overflow: hidden;
+			  position: relative;
+			}
+		
+			.menu {
+			  left: -285px;  /* start off behind the scenes */
+			  height: 100%;
+			  position: fixed;
+			  width: 200px;
+			  background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+				z-index: 1000;
+				margin-top: 16px;
+				height: auto;
+			}
+
+			.menu ul {
+			  border-top: 1px solid #636366;
+			  list-style: none;
+			  margin: 0;
+			  padding: 0;
+			}
+
+			.menu li {
+			  border-bottom: 1px solid #636366;
+			  font-family: 'Open Sans', sans-serif;
+			  line-height: 45px;
+			  padding-bottom: 3px;
+			  padding-left: 20px;
+			  padding-top: 3px;
+			  font-size: smaller;
+			}
+
+			.menu a {
+			  color: #fff;
+			  font-size: 15px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-close {
+			  cursor: pointer;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			}
+
+			.icon-menu {
+			  color: #fff;
+			  cursor: pointer;
+			  font-family: 'Open Sans', sans-serif;
+			  font-size: 16px;
+			  padding-bottom: 25px;
+			  padding-left: 25px;
+			  padding-top: 25px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-menu i {
+			  margin-right: 5px;
+			}
+			
+			#studentHeader{
+				margin-top: 75px;
+				height: 115px;
+				color: black;
+			}
+			
+			h1{
+				font-size: 26px;
+			}
+			
+			h3{
+				font-size: 16px;
+				color: #777;
+				margin-top: 0px; 
+				margin-bottom: 10px;
+
+			}
+			
+			input{
+				margin: 5px;
+			}
+			
+			.smallglyph{
+				font-size: 10px;
+				display: inline;
+			}
+			
+			.scrollit {
+				overflow:scroll;
+				height:auto;
+			}
+			
+			.wrapdiv{
+				width: 99%;
+				background-color: white;
+				margin-top: 25px;
+				margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				padding: 10px;
+				border: 1px solid #dbe1e8;
+			}
+			
+			.titleCol{
+				background-color: #f9fafc;
+				width: 100%;
+				padding: 15px;
+				margin-top: -10px;
+				border-bottom: 2px solid lightblue;
+			}
+			#txtFirstName{
+				width: 150px;
+			}
+			
+			#txtLastName{
+				width: 180px;
+			}
+			
+			.form-control{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			.btn-center{
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.menu-glyph{
+				font-size: 1.2em;
+				color: white;
+			}
+			
+			#classtoadd{
+				width: 100px;
+				display: inline;
+			}
+			
+			@media(max-width: 768px){
+				input[type=radio] + label {
+				margin-left: 0px;
+			}
+			}
+			
+			@media(max-width: 420px){
+				.form-control{
+					width: 80%;
+				}
+				#txtLastName{
+					width: 80%;
+				}
+				
+				.glyphicon {
+					width: 10%;
+				}
+				.menu{
+					height: auto;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				$('body').css('display', 'none');
+				$('body').fadeIn(500);
+			
+				$('.icon-menu').click(function() {
+					$('.menu').toggle(function(){
+						$('.menu').animate({
+						  left: "0px"
+						}, 200);
+					});
+				  });
+				  
+				function newpage() {
+					window.location = newLocation;
+				}
+				
+				$('#home').click(function(){
+					event.preventDefault();
+					newLocation = 'menu.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#manageclass').click(function(){
+					event.preventDefault();
+					newLocation = 'manage-class.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#takeattendance').click(function(){
+					event.preventDefault();
+					newLocation = 'take-attendance.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#genearatereport').click(function(){
+					event.preventDefault();
+					newLocation = 'generate-report.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					event.preventDefault();
+					newLocation = 'index.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				user = localStorage.getItem('userlog');
+				
+				$('#example').dataTable();
+					var table = $('#example').DataTable();
+				
+				$('#example_info').hide();
+				$('#example_paginate').hide();
+				$('#example_length').hide();
+				$('#example_filter').hide();
+				
+				var attendance;
+				
+				$('#classtoadd').change(function(){
+					table
+							.clear()
+							.draw();
+					$('.dataTables_empty').hide();
+					classid=$('#classtoadd').val();
+						$.ajax({
+						type: 'GET',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentclass.php',
+						dataType: 'html',
+						data: {classid1: classid},
+						success: function(data){
+							$.each(JSON.parse(data), function(key, value) {
+								$("#tblBody").append('<tr><td>'+value['studno']+'</td><td>'+value['lastname']+', '+value['firstname']+'</td><td><button class="btn btn-success" onclick="localStorage.setItem(\'attend\',\'Present\');">P</button><button class="btn btn-danger" onclick="localStorage.setItem(\'attend\',\'Absent\');">A</button><button class="btn btn-warning" onclick="localStorage.setItem(\'attend\',\'Tardy\');">T</button></td></tr>');
+							});	
+						}
+					});
+				});
+				
+				$.ajax({
+					type: 'GET',
+					url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassquery.php',
+					dataType: 'html',
+					data: {instruct: user},
+					success: function(data){
+						$.each(JSON.parse(data), function(key, value) {
+							$("#classtoadd").append('<option value='+value['id']+'>'+value['id']+'</option>');					
+						});	
+					}
+				});
+				
+				$('#example tbody').on('click', 'tr', function () {
+					studno = $('td', this).eq(0).text();
+					name = $('td', this).eq(1).text();
+					attendance = localStorage.getItem("attend");
+					
+					$.ajax({
+						type: 'GET',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/checkifexist.php',
+						dataType: 'html',
+						data: {studid: studno, 
+								name1: name, 
+								classid1: $('#classtoadd').val(), 
+								attendance1: attendance},
+						success: function(data){
+							if(data == 'Already exists')
+							{
+								$.ajax({
+									type: 'POST',
+									url: 'http://gordoncollegeccs.edu.ph/appttendance/editattendance.php',
+									dataType: 'html',
+									data: {studid: studno, 
+										name1: name, 
+										classid1: $('#classtoadd').val(), 
+										attendance1: attendance},
+									success: function(data1){
+										if(data1){
+											
+										}
+									}
+								});
+							}
+							else
+							{
+								$.ajax({
+									type: 'POST',
+									url: 'http://gordoncollegeccs.edu.ph/appttendance/addattendance.php',
+									dataType: 'html',
+									data: {studid: studno, 
+										name1: name, 
+										classid1: $('#classtoadd').val(), 
+										attendance1: attendance},
+									success: function(data2){
+										if(data2){
+												
+										}
+									}
+									});
+								}
+							}
+						});
+				});
+
+			});
+		</script>
+	</head>
+	
+	<body>
+			<div class="container icon-menu" id="banner">		
+					<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+				<div class="menu">
+					<!-- Menu -->
+					<ul>
+						<li id="home"><span class="glyphicon glyphicon-home menu-glyph"></span> Home</li>
+						<li id="manageclass"><span class="glyphicon glyphicon-list-alt menu-glyph" ></span> Manage Class</li>
+						<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Take attendance</li>
+						<li id="genearatereport"><span class="glyphicon glyphicon-file menu-glyph"></span> Generate Report</li>
+						<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="container" id="studentHeader">
+				<div class="row wrapdiv">
+					<div class="col-md-12">
+						<h1 class="text-left">Take Attendance</h1>
+						<h3>Take attendance of your students here</h3>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="studentList" style="margin-bottom: 75px;">
+				<div class="row">
+					<div class="col-md-12" id="displayStudents">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Attendance for <select id="classtoadd" class="form-control"></select></h3>
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example">
+										<thead>
+											<tr>
+												<th>Student No.</th>
+												<th>Name</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody">
+											
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+	</body>
+</html>

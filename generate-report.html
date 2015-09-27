@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="icon" href="images/logo.png">
+		<title>Appttendance</title>
+		<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/menucss.css" rel="stylesheet">
+		<link href="css/jquery-ui.min.css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+		<script src="js/typeahead.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		<script src="js/jquery.table2excel.js"></script>
+		<style>
+			#wrapper{
+			  left: 0;
+			  margin: 0;
+			  overflow: hidden;
+			  position: relative;
+			}
+		
+			.menu {
+			  left: -285px;  /* start off behind the scenes */
+			  height: 100%;
+			  position: fixed;
+			  width: 200px;
+			  background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+				z-index: 1000;
+				margin-top: 16px;
+				height: auto;
+			}
+
+			.menu ul {
+			  border-top: 1px solid #636366;
+			  list-style: none;
+			  margin: 0;
+			  padding: 0;
+			}
+
+			.menu li {
+			  border-bottom: 1px solid #636366;
+			  font-family: 'Open Sans', sans-serif;
+			  line-height: 45px;
+			  padding-bottom: 3px;
+			  padding-left: 20px;
+			  padding-top: 3px;
+			  font-size: smaller;
+			}
+
+			.menu a {
+			  color: #fff;
+			  font-size: 15px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-close {
+			  cursor: pointer;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			}
+
+			.icon-menu {
+			  color: #fff;
+			  cursor: pointer;
+			  font-family: 'Open Sans', sans-serif;
+			  font-size: 16px;
+			  padding-bottom: 25px;
+			  padding-left: 25px;
+			  padding-top: 25px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-menu i {
+			  margin-right: 5px;
+			}
+			
+			#studentHeader{
+				margin-top: 75px;
+				height: 115px;
+				color: black;
+			}
+			
+			h1{
+				font-size: 26px;
+			}
+			
+			h3{
+				font-size: 16px;
+				color: #777;
+				margin-top: 0px; 
+				margin-bottom: 10px;
+
+			}
+			
+			input{
+				margin: 5px;
+			}
+			
+			.smallglyph{
+				font-size: 10px;
+				display: inline;
+			}
+			
+			.scrollit {
+				overflow:scroll;
+				height:auto;
+			}
+			
+			.wrapdiv{
+				width: 99%;
+				background-color: white;
+				margin-top: 25px;
+				margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				padding: 10px;
+				border: 1px solid #dbe1e8;
+			}
+			
+			.titleCol{
+				background-color: #f9fafc;
+				width: 100%;
+				padding: 15px;
+				margin-top: -10px;
+				border-bottom: 2px solid lightblue;
+			}
+			#txtFirstName{
+				width: 150px;
+			}
+			
+			#txtLastName{
+				width: 180px;
+			}
+			
+			.form-control{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			.btn-center{
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.menu-glyph{
+				font-size: 1.2em;
+				color: white;
+			}
+			
+			#classtoadd{
+				width: 100px;
+				display: inline;
+			}
+			
+			#genstudno, #genclassid{
+				width: 200px;
+			}
+			
+			#genclassid{
+				margin-left: 20px;
+			}
+			
+			.form-bordered{
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				border: none;
+				padding: 15px;
+				border-bottom: 1px dashed #eaedf1;
+				border-top: 1px dashed #eaedf1;
+				width: 100%;
+			}
+			
+			.selectedform{
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				border: none;
+				padding: 15px;
+				border-bottom: 1px solid lightblue;
+				border-top: 1px solid lightblue;
+				width: 100%;
+				background-color: #eee;
+				opacity: 1;
+			}
+			
+			#btnExport, #btnNewReport{
+				width: auto;
+				margin-left: 5px;
+			}
+			
+			@media(max-width: 420px){
+				.form-control{
+					width: 80%;
+				}
+				#txtLastName{
+					width: 80%;
+				}
+				
+				.glyphicon {
+					width: 10%;
+				}
+				.menu{
+					height: auto;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){
+				$('.icon-menu').click(function() {
+					$('.menu').toggle(function(){
+						$('.menu').animate({
+						  left: "0px"
+						}, 200);
+					});
+				  });
+				
+				$('#home').click(function(){
+					location.href="menu.html";
+				});
+				
+				$('#managestudents').click(function(){
+					location.href="manage-students.html";
+				});
+				
+				$('#manageclass').click(function(){
+					location.href="manage-class.html";
+				});
+				
+				$('#takeattendance').click(function(){
+					location.href="take-attendance.html";
+				});
+				
+				$('#genearatereport').click(function(){
+					location.href="generate-report.html";
+				});
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					location.href="index.html";
+				});
+				
+				var query="";
+				var selectedfromdate="";
+				var selectedtodate="";
+				
+				$('#attendanceList').hide();
+				
+				$('#genstudno').prop("disabled", true);
+				$('#genclassid').prop("disabled", true);
+				$('#selectStudent').click(function(){
+					query = "Student";
+					$('#genstudno').prop("disabled", false);
+					$('#genclassid').prop("disabled", true);
+					
+					$('#formStudent').removeClass('form-bordered');
+					$('#formStudent').addClass('selectedform');
+					$('#formClass').removeClass('selectedform');
+					$('#formClass').addClass('form-bordered');
+				
+					$('#genstudno').val('');
+				});
+				
+				$('#selectClass').click(function(){
+					query = "Class";
+					$('#genclassid').prop("disabled", false);
+					$('#genstudno').prop("disabled", true);
+					
+					$('#formClass').removeClass('form-bordered');
+					$('#formClass').addClass('selectedform');
+					$('#formStudent').removeClass('selectedform');
+					$('#formStudent').addClass('form-bordered');
+					
+					$('#genstudno').val('');
+				});
+				
+				$('#menu1next').click(function(){
+					$('#limenu1').removeClass('active');
+					$('#limenu2').addClass('active');
+					location.href = "generate-report.html#menu2";
+					
+					if(query=="Student")
+					{
+						$('#classvalue').text($('#genstudno').val());
+					}
+					else
+					{
+						$('#classvalue').text($('#genclassid').val());
+					}
+				});
+				
+				$('#menu2next').click(function(){
+					$('#limenu2').removeClass('active');
+					$('#limenu3').addClass('active');
+					location.href = "generate-report.html#menu3";
+				});
+				
+				$('#dateStart').change(function(){
+					$('#dtFrom').text($('#dateStart').val());
+					selectedfromdate = $('#dateStart').val();
+				});
+				
+				$('#dateFinish').change(function(){
+					$('#dtTo').text($('#dateFinish').val());
+					selectedtodate = $('#dateFinish').val();
+				});
+				
+				$('#btnGetReport').click(function(){
+					if(query=="Class")
+					{
+						$.ajax({
+							type: 'GET',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/generatereportbyclass.php',
+							dataType: 'html',
+							data: {classid: $('#genclassid').val(), fromdate: selectedfromdate, todate: selectedtodate},
+							success: function(data){
+								$('#showClass').text($('#genclassid').val());
+								$.each(JSON.parse(data), function(key, value) {
+									$("#tblBody").append('<tr><td>'+value['name']+'</td><td>'+value['present']+'</td><td>'+value['absent']+'</td><td>'+value['tardy']+'</td></tr>');					
+								});	
+								$('#headerFirst').text('Name');
+							}
+						});
+					}
+					else{
+						$.ajax({
+							type: 'GET',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/generatereportbystudent.php',
+							dataType: 'html',
+							data: {studno: $('#genstudno').val(), fromdate: selectedfromdate, todate: selectedtodate},
+							success: function(data){
+								$.each(JSON.parse(data), function(key, value) {
+									$("#tblBody").append('<tr><td>'+value['classid']+'</td><td>'+value['present']+'</td><td>'+value['absent']+'</td><td>'+value['tardy']+'</td></tr>');					
+									$('#showClass').text(value['name']);
+								});
+								$('#headerFirst').text('Class');
+							}
+						});
+					}
+					$('#studentList').hide();
+					$('#attendanceList').show();
+				});
+				
+				$('#btnExport').click(function(){
+					$("#example").table2excel({
+						exclude: ".noExl",
+						name: "Excel Document Name",
+						filename: "Appttendance"
+					});
+				});
+				
+				$('#btnNewReport').click(function(){
+					location.reload(this);
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+			<div class="container icon-menu" id="banner">		
+					<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+				<div class="menu">
+					<!-- Menu -->
+					<ul>
+						<li id="home"><span class="glyphicon glyphicon-home menu-glyph"></span> Home</li>
+						<li id="manageclass"><span class="glyphicon glyphicon-list-alt menu-glyph" ></span> Manage Class</li>
+						<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Take attendance</li>
+						<li id="genearatereport"><span class="glyphicon glyphicon-file menu-glyph"></span> Generate Report</li>
+						<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="container" id="studentHeader">
+				<div class="row wrapdiv">
+					<div class="col-md-12">
+						<h1 class="text-left">Generate Report</h1>
+						<h3>Create your report here</h3>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="studentList">
+				<div class="row">
+					<div class="col-md-12" id="displayStudents" style="margin-bottom: 75px;">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Create your own Report</h3>
+							<div class="tabpills">
+								<ul class="nav nav-pills nav-justified" style="margin-bottom: 10px;">
+									<li id="limenu1" class="active"><a data-toggle="pill" href="#menu1">Choose Class/Student</a></li>
+									<li id="limenu2"><a data-toggle="pill" href="#menu2">Choose Date</a></li>
+									<li id="limenu3"><a data-toggle="pill" href="#menu3">Get your Report!</a></li>
+								</ul>
+							  
+								<div class="tab-content">
+									<div id="menu1" class="tab-pane fade in active">
+										<div class="form-bordered" id="formStudent">
+											<button class="btn btn-muted" style="display: inline-block;" id="selectStudent">Student</button><input type="text" id="genstudno" name="genstudno" class="form-control" placeholder="Student Number" style="display: inline-block;">
+										</div>
+										<div class="form-bordered" id="formClass">
+											<button class="btn btn-muted" style="display: inline-block;" id="selectClass">Class</button><input type="text" id="genclassid" name="genclassid" class="form-control" placeholder="Class Id" style="display: inline-block;">
+										</div>
+										<div class="form-bordered">
+											<a data-toggle="pill" href="#menu2"><button class="btn btn-warning" style="display: inline-block;" id="menu1next">Next</button></a>
+										</div>
+									</div>
+									<div id="menu2" class="tab-pane fade">
+										<div class="form-bordered">
+											<label for="startDate">Start from:</label>
+											<input type="date" id="dateStart" name="dateStart" class="form-control" style="width: 250px;">
+										</div>
+										<div class="form-bordered">
+											<label for="toDate">To:</label>
+											<input type="date" id="dateFinish" name="dateFinish" class="form-control" style="width: 250px;">
+										</div>
+										<div class="form-bordered">
+											<a data-toggle="pill" href="#menu3"><button class="btn btn-warning" style="display: inline-block;" id="menu2next">Next</button></a>
+										</div>
+									</div>
+									<div id="menu3" class="tab-pane fade">
+										<div class="form-bordered">
+											<p>Class/Student: <span id="classvalue"></span></p>
+										</div>
+										<div class="form-bordered">
+											<p>Date: <span id="dtFrom"></span> to <span id="dtTo"></span></p>
+										</div>
+										<div class="form-bordered">
+											<button class="btn btn-success" style="display: inline-block;" id="btnGetReport">Get Report</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="attendanceList">
+				<div class="row">
+					<div class="col-md-12" id="displayStudents" style="margin-bottom: 75px;">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Attendance for <span id="showClass"></span></h3><button id="btnExport" class="btn btn-success form-control">Export to CSV</button><button id="btnNewReport" class="btn btn-info form-control">Create new report</button>
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example">
+										<thead>
+											<tr>
+												<th id="headerFirst">Name</th>
+												<th>Present</th>
+												<th>Absent</th>
+												<th>Tardy</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody">
+											
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+	</body>
+</html>

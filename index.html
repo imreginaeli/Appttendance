@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" id="htmlIndex">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" href="images/logo.png">
+    <title>Appttendance</title>
+	<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+	<link href="css/default.css" rel="stylesheet">
+	<script src="js/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			
+		function newpage() {
+			window.location = newLocation;
+		}
+		$("#btnLogin").click(function(){
+
+			var txtUsername = $("#txtUsername").val();
+			var txtPassword = $("#txtPassword").val();
+
+			if( txtUsername =='' || txtPassword =='')
+				{
+				  alert("Please fill all fields....");
+				}	
+			
+			else 
+			   {
+					$.ajax({
+						type: 'GET',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/login.php',
+						dataType: 'html',
+						data: $('#frmLogin').serialize(),
+						success: function(data){
+							if(data=='admin'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								username = localStorage.getItem('userappttendance');
+								event.preventDefault();
+								newLocation = 'adminpage.html';
+								$('body').fadeOut(500, newpage);
+							}
+							else if(data=='staff'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								username = localStorage.getItem('userappttendance');
+								event.preventDefault();
+								newLocation = 'menu.html';
+								$('body').fadeOut(500, newpage);
+							}
+							else if(data=='student'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								username = localStorage.getItem('userappttendance');
+								event.preventDefault();
+								newLocation = 'studentpage.html';
+								$('body').fadeOut(500, newpage);
+							}
+							else{
+								$('#txtUsername').text('');
+								$('#txtPassword').text('');
+								$('#txtError').text('Invalid username or password.');
+							}
+						}
+					});
+			   }
+			
+			});
+		});
+	</script>
+  </head>
+
+ <body id="bodyIndex">
+	<div class="container" id="pageLogin">
+		<img src="images/logoccs.png" class="img-responsive" id="imglogo"/>
+		<h2 id ="frmHeader" class="text-center">GC CCS<br>Online Attendance Tracker</h2>
+		<h4 class="text-center"><i>Manage student details, manage classes, generate report</i></h4>
+		<hr/>
+		<form id="frmLogin">
+			<div class="form">
+				<input type="text" placeholder="username" class="form-control" id="txtUsername" name="txtUsername">
+				<input type="password" placeholder="password" class="form-control" id="txtPassword" name="txtPassword">
+			</div>
+		</form>
+		<button class="btn btn-primary form-control" id="btnLogin">Login</button>
+		<p id="txtError" class="text-danger"></p>
+	</div>
+  </body>
+</html>

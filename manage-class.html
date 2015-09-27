@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="icon" href="images/logo.png">
+		<title>Appttendance</title>
+		<link href="css/bootstrap.min.css" rel="stylesheet">
+		<link href="css/menucss.css" rel="stylesheet">
+		<link href="css/jquery-ui.min.css" rel="stylesheet">
+		<script src="js/jquery.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+		<script src="js/main.js"></script>
+		<script src="js/typeahead.min.js"></script>
+		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
+		<style>
+			#wrapper{
+			  left: 0;
+			  margin: 0;
+			  overflow: hidden;
+			  position: relative;
+			}
+		
+			.menu {
+			  left: -285px;  /* start off behind the scenes */
+			  height: 100%;
+			  position: fixed;
+			  width: 200px;
+			  background: linear-gradient(#275670, #122B41);
+			background: -moz-linear-gradient(#275670, #122B41);
+			background: -webkit-linear-gradient(#275670, #122B41);
+			background: -o-linear-gradient(#275670, #122B41);
+			background: -ms-linear-gradient(#275670, #122B41);
+				z-index: 1000;
+				margin-top: 16px;
+				height: auto;
+			}
+
+			.menu ul {
+			  border-top: 1px solid #636366;
+			  list-style: none;
+			  margin: 0;
+			  padding: 0;
+			}
+
+			.menu li {
+			  border-bottom: 1px solid #636366;
+			  font-family: 'Open Sans', sans-serif;
+			  line-height: 45px;
+			  padding-bottom: 3px;
+			  padding-left: 20px;
+			  padding-top: 3px;
+			  font-size: smaller;
+			}
+
+			.menu a {
+			  color: #fff;
+			  font-size: 15px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-close {
+			  cursor: pointer;
+			  padding-left: 10px;
+			  padding-top: 10px;
+			}
+
+			.icon-menu {
+			  color: #fff;
+			  cursor: pointer;
+			  font-family: 'Open Sans', sans-serif;
+			  font-size: 16px;
+			  padding-bottom: 25px;
+			  padding-left: 25px;
+			  padding-top: 25px;
+			  text-decoration: none;
+			  text-transform: uppercase;
+			}
+
+			.icon-menu i {
+			  margin-right: 5px;
+			}
+			
+			#studentHeader{
+				margin-top: 75px;
+				height: 115px;
+				color: black;
+			}
+			
+			h1{
+				font-size: 26px;
+			}
+			
+			h3{
+				font-size: 16px;
+				color: #777;
+				margin-top: 0px; 
+				margin-bottom: 10px;
+
+			}
+			
+			input{
+				margin: 5px;
+			}
+			
+			.smallglyph{
+				font-size: 10px;
+				display: inline;
+			}
+			
+			.scrollit {
+				overflow:scroll;
+				height:auto;
+			}
+			
+			.wrapdiv{
+				width: 99%;
+				background-color: white;
+				margin-top: 25px;
+				margin-bottom: 15px;
+				margin-left: auto;
+				margin-right: auto;
+				display: block;
+				padding: 10px;
+				border: 1px solid #dbe1e8;
+			}
+			
+			.titleCol{
+				background-color: #f9fafc;
+				width: 100%;
+				padding: 15px;
+				margin-top: -10px;
+				border-bottom: 2px solid lightblue;
+			}
+			#txtFirstName{
+				width: 150px;
+			}
+			
+			#txtLastName{
+				width: 180px;
+			}
+			
+			.form-control{
+				margin-top: 5px;
+				margin-bottom: 5px;
+			}
+			
+			.btn-center{
+				margin-left: auto;
+				margin-right: auto;
+			}
+			
+			.menu-glyph{
+				font-size: 1.2em;
+				color: white;
+			}
+			
+			#btnImport, #btnImport2{
+				width: auto;
+				margin-left: 5px;
+				display: inline;
+				margin-top: -10px;
+			}
+			
+			#alertMessage{
+				display: none;
+			}
+			
+			@media(max-width:768px){
+				#btnImport, #btnImport2{
+					display: none;
+				}
+				
+			}
+			@media(max-width: 420px){
+				.form-control{
+					width: 80%;
+				}
+				#txtLastName{
+					width: 80%;
+				}
+				
+				.glyphicon {
+					width: 10%;
+				}
+				.menu{
+					height: auto;
+				}
+			}
+		</style>
+		<script>
+			$(document).ready(function(){	
+			$('body').css('display', 'none');
+				$('body').fadeIn(500);
+			
+				$('.icon-menu').click(function() {
+					$('.menu').toggle(function(){
+						$('.menu').animate({
+						  left: "0px"
+						}, 200);
+					});
+				  });
+				  
+				function newpage() {
+					window.location = newLocation;
+				}
+				
+				$('#home').click(function(){
+					event.preventDefault();
+					newLocation = 'menu.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#manageclass').click(function(){
+					event.preventDefault();
+					newLocation = 'manage-class.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#takeattendance').click(function(){
+					event.preventDefault();
+					newLocation = 'take-attendance.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#genearatereport').click(function(){
+					event.preventDefault();
+					newLocation = 'generate-report.html';
+					$('body').fadeOut(500, newpage);
+				});
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					event.preventDefault();
+					newLocation = 'index.html';
+					$('body').fadeOut(500, newpage);
+				});
+			
+				var instruct = localStorage.getItem('userlog');
+				$('#txtInstructor').val(instruct);
+				console.log("It Works");
+				var classid;
+				$.ajax({
+					type: 'GET',
+					url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassquery.php',
+					dataType: 'html',
+					data: {instruct: instruct},
+					success: function(data){
+						$.each(JSON.parse(data), function(key, value) {
+							$("#tblBody").append('<tr><td>'+value['id']+'</td><td>'+value['subjcode']+'</td><td>'+value['coursetitle']+'</td><td>'+value['day']+'</td><td>'+value['time']+'</td><td>'+value['rm']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button><button class="btn btn-info" onclick="$(\'#studentDisplay\').fadeIn(500); $(\'#addClass\').css(\'margin-top\', \'-70px\');"> <span class="glyphicon glyphicon-eye-open smallglyph"></span></button></td></tr>');					
+						});	
+						
+						$('#example').dataTable();
+					var table = $('#example').DataTable();
+					
+					$('#example tbody').on( 'click', 'tr', function () {
+						if ( $(this).hasClass('selected') ) {
+							$(this).removeClass('selected');
+						}
+						else {
+							table.$('tr.selected').removeClass('selected');
+							$(this).addClass('selected');
+						}
+					});
+					
+					$('#example tbody').on('click', 'tr', function () {
+						classid = $('td', this).eq(0).text();
+						coursetitle = $('td', this).eq(1).text();
+						day = $('td', this).eq(2).text();
+						time = $('td', this).eq(3).text();
+						rm = $('td', this).eq(4).text();
+						
+						$("#disClassId").val(classid);
+						$("#disCourseTitle").val(coursetitle);
+						$("#disDay").val(day);
+						$("#disTime").val(time);
+						$("#disRm").val(rm);
+						
+						$('#modalAlert').text('Are you sure you want to delete ' + classid + '?');
+						
+						$('#classHere').html(classid);
+						$.ajax({
+							type: 'GET',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentclass.php',
+							dataType: 'html',
+							data: {classid1: classid},
+							success: function(data){
+								$('#tblBody2').empty();
+								$.each(JSON.parse(data), function(key, value) {
+									$("#tblBody2").append('<tr><td>'+value['studno']+'</td><td>'+value['lastname']+', '+value['firstname']+'</td></tr>');
+								});	
+							}
+						});
+					});
+					}
+				});
+				var msg = $('#alertMessage');
+				var inpClasscode = $('#txtClassCode');
+				var inpsubjcode = $('#txtSubjCode');
+				var inpcoursetitle = $('#txtCourseTitle');
+				var inpday = $('#txtDay');
+				var inptime = $('#txtTime');
+				var inpins = $('#txtInstructor');
+				$('#btnSubmit').click(function(){
+					if(inpClasscode.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Class code is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inpsubjcode.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Subject code is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inpcoursetitle.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Course title is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inpday.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Day is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inptime.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Time is required.');
+						msg.fadeIn(500).show();
+					}
+					else if(inpins.val()=="")
+					{
+						msg.html('<span class="glyphicon glyphicon-warning-sign smallglyph"></span> Instructor is required.');
+						msg.fadeIn(500).show();
+					}
+					else
+					{
+						$.ajax({
+							type:'POST',
+							url:'http://gordoncollegeccs.edu.ph/appttendance/addclass.php',
+							dataType: "html",  
+							data: $('#frmAddClass').serialize(),
+							success:function(data) {
+								if(data) {   
+										location.reload(this);
+								} else {
+								
+								}
+							}
+						});
+					}
+				});
+				
+				$('#btnUpdate').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editclass.php',
+						dataType: "html",  
+						data: $('#frmEdit').serialize(),
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});
+				
+				$('#btnConfirmDelete').click(function(){
+					$.ajax({
+						type:'POST',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deleteclass.php',
+						dataType: "html",  
+						data: 'delete_id='+classid,
+						success:function(data) {
+							if(data) {   
+									location.reload(this);
+							} else {
+							
+							}
+						}
+					});
+				});		
+				
+				$('#frmImport').hide();
+				$('#btnImport').click(function(){
+					$('#frmImport').toggle(750);
+				});
+				
+				$('#frmImport2').hide();
+				$('#btnImport2').click(function(){
+					$('#frmImport2').toggle(750);
+				});
+			});
+		</script>
+	</head>
+	
+	<body>
+			<div class="container icon-menu" id="banner">		
+					<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+				<div class="menu">
+					<!-- Menu -->
+					<ul>
+						<li id="home"><span class="glyphicon glyphicon-home menu-glyph"></span> Home</li>
+						<li id="manageclass"><span class="glyphicon glyphicon-list-alt menu-glyph" ></span> Manage Class</li>
+						<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Take attendance</li>
+						<li id="genearatereport"><span class="glyphicon glyphicon-file menu-glyph"></span> Generate Report</li>
+						<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="container" id="studentHeader">
+				<div class="row wrapdiv">
+					<div class="col-md-12">
+						<h1 class="text-left">Manage Classes</h1>
+						<h3>Manage all your classes information</h3>
+					</div>
+				</div>
+			</div>
+			
+			<div class="container" id="studentList">
+				<div class="row">
+					<div class="col-md-7" id="displayStudents">
+						<div class="wrapdiv">
+							<h3 class="titleCol">Class <button id="btnImport2" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
+								<form class="form-horizontal well" action="importstudentclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport2">
+									<fieldset>
+										<legend>Import CSV/Excel file</legend>
+										<div class="control-group">
+											<div class="controls">
+												<input type="file" name="file" id="file" class="input-large">
+											</div>
+										</div>
+				 
+										<div class="control-group">
+											<div class="controls">
+											<button type="submit" id="submit" name="Import2" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example">
+										<thead>
+											<tr>
+												<th>Class Code</th>
+												<th>Subject Code</th>
+												<th>Course Title</th>
+												<th>Day</th>
+												<th>Time</th>
+												<th>Room No.</th>
+												<th>Action</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody">
+											
+										</tbody>
+									</table>
+								</div>
+						</div>
+					</div>
+					
+					<div class="col-md-5" style="margin-bottom: 75px; display: none;" id="studentDisplay" >
+						<div class="wrapdiv">
+							<div class="form">
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Students for Class <span id="classHere"></span> </h3>
+								<div class="scrollit">
+									<table class="table table-striped table-responsive"  id="example2">
+										<thead>
+											<tr>
+												<th>Student No.</th>
+												<th>Name</th>
+											</tr>
+										</thead>
+										<tbody id="tblBody2">
+											
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="col-md-5" style="margin-bottom: 75px;" id="addClass">
+						<div class="wrapdiv">
+							<div class="form">
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Class <button id="btnImport" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
+								<form class="form-horizontal well" action="importclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
+									<fieldset>
+										<legend>Import CSV/Excel file</legend>
+										<div class="control-group">
+											<div class="controls">
+												<input type="file" name="file" id="file" class="input-large">
+											</div>
+										</div>
+				 
+										<div class="control-group">
+											<div class="controls">
+											<button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+											</div>
+										</div>
+									</fieldset>
+								</form>
+								<p class="alert alert-danger" id="alertMessage"></p>
+								<form class="form-inline" id="frmAddClass">
+									<table style="margin-left: 15px">
+										<tr><td><label for="classcode">Class Code: </label></td>
+											<td>
+												<input type="text" id="txtClassCode" name="txtClassCode" class="form-control" placeholder="Class Code">
+											</td>
+										</tr>
+										<tr><td><label for="subjcode">Subject Code: </label></td>
+											<td>
+												<input type="text" id="txtSubjCode" name="txtSubjCode" class="form-control" placeholder="Subject Code">
+											</td>
+										</tr>
+										<tr><td><label for="coursetitle">Course Title: </label></td>
+											<td>
+												<input type="text" id="txtCourseTitle" name="txtCourseTitle" class="form-control" placeholder="Course Title">
+											</td>
+										</tr>
+										<tr><td><label for="schedule">Schedule: </label></td>
+											<td>
+												<input type="text" id="txtDay" name="txtDay" class="form-control" placeholder="Day">
+												<input type="text" id="txtTime" name="txtTime" class="form-control" placeholder="Time">
+											</td>
+										</tr>
+										<tr>
+											<td><label for="rmno">Room No.:</label></td>
+											<td><input type="text" id="txtRoom" name="txtRoom" class="form-control" placeholder="Room number"></td><br>
+										</tr>
+										<tr>
+											<td><label for="instructor"Instructor:</label></td>
+											<td><input type="text" id="txtInstructor" name="txtInstructor" class="form-control" placeholder="Instructor"></td>
+										</tr>
+									</table>
+								</form>
+								<button class="btn btn-primary" id="btnSubmit">Submit</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- Modal -->
+			 <div class="modal fade" id="editModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						</div>
+						<div class="modal-body">
+							<form id="frmEdit">
+								<label>Class Code:</label>
+								<input type="text" placeholder="Class Code" class="form-control btn-center" id="disClassId" name="disClassId">
+								<label>Course Title:</label>
+								<input type="text" placeholder="Course Title" class="form-control btn-center" id="disCourseTitle" name="disCourseTitle">
+								<label>Day:</label>
+								<input type="text" placeholder="Day" class="form-control btn-center" id="disDay" name="disDay">
+								<label>Time:</label>
+								<input type="text" placeholder="Time" class="form-control btn-center" id="disTime" name="disTime">
+								<label>Rm number:</label>
+								<input type="text" placeholder="Rm" class="form-control btn-center" id="disRm" name="disRm">
+							</form>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" name="submit" class="btn btn-info form-control" id="btnUpdate" />
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="alertModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalHeader"></h4>
+						</div>
+						<div class="modal-body">
+							<p id="modalAlert"></p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-info form-controls" data-dismiss="modal" id="btnConfirmDelete">Yes</button>
+							<button class="btn btn-default" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
+			<div class="container" id="footer">
+				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+			</div>
+	</body>
+</html>
