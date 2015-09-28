@@ -12,6 +12,7 @@ html, body{
 		}
 		
 		#pageLogin{
+			display: block;
 			background-color: #FFA500;
 			width: 400px;
 			height: auto;

@@ -213,7 +213,7 @@
 				$('#logout').click(function(){
 					localStorage.removeItem('userlog');
 					event.preventDefault();
-					newLocation = 'index.html';
+					newLocation = 'login.html';
 					$('body').fadeOut(500, newpage);
 				});
 				
@@ -228,8 +228,14 @@
 				console.log("It Works");
 				var id;
 				
+				var msg2 = $('#alertMessage2');
+				msg2.html('<img src="images/ajax-loader.gif"> Loading database.');
+				msg2.removeClass('alert alert-danger');
+				msg2.addClass('alert alert-info');
+				msg2.fadeIn(500).show();
 				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displayaccounts.php", function(data)
          		{
+					msg2.fadeOut(500).hide();
 					$.each(data, function(key, value) {
 						$("#tblBody").append('<tr><td>'+value['userid']+'</td><td>'+value['username']+'</td><td>'+value['usertype']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button></td></tr>');					
 					});	
@@ -350,6 +356,7 @@
 				});
 				
 				var msg = $('#alertMessage');
+				
 				$('#frmImport').hide();
 				$('#btnImport').click(function(){
 					$('#frmImport').toggle(750);
@@ -383,6 +390,7 @@
 					<div class="col-md-7" id="displayStudents">
 						<div class="wrapdiv">
 							<h3 class="titleCol">Accounts</h3>
+							<p class="alert alert-danger" id="alertMessage2"></p>
 								<div class="scrollit">
 									<table class="table table-striped table-responsive"  id="example">
 										<thead>

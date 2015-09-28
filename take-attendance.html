@@ -164,6 +164,10 @@
 				display: inline;
 			}
 			
+			#alertMessage2{
+				display: none;
+			}
+			
 			@media(max-width: 768px){
 				input[type=radio] + label {
 				margin-left: 0px;
@@ -230,7 +234,7 @@
 				$('#logout').click(function(){
 					localStorage.removeItem('userlog');
 					event.preventDefault();
-					newLocation = 'index.html';
+					newLocation = 'login.html';
 					$('body').fadeOut(500, newpage);
 				});
 				
@@ -252,6 +256,11 @@
 							.draw();
 					$('.dataTables_empty').hide();
 					classid=$('#classtoadd').val();
+					var msg2 = $('#alertMessage2');
+					msg2.html('<img src="images/ajax-loader.gif"> Loading database.');
+					msg2.removeClass('alert alert-danger');
+					msg2.addClass('alert alert-info');
+					msg2.fadeIn(500).show();
 						$.ajax({
 						type: 'GET',
 						url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentclass.php',
@@ -259,6 +268,7 @@
 						data: {classid1: classid},
 						success: function(data){
 							$.each(JSON.parse(data), function(key, value) {
+								msg2.fadeOut(500).hide();
 								$("#tblBody").append('<tr><td>'+value['studno']+'</td><td>'+value['lastname']+', '+value['firstname']+'</td><td><button class="btn btn-success" onclick="localStorage.setItem(\'attend\',\'Present\');">P</button><button class="btn btn-danger" onclick="localStorage.setItem(\'attend\',\'Absent\');">A</button><button class="btn btn-warning" onclick="localStorage.setItem(\'attend\',\'Tardy\');">T</button></td></tr>');
 							});	
 						}
@@ -362,6 +372,7 @@
 					<div class="col-md-12" id="displayStudents">
 						<div class="wrapdiv">
 							<h3 class="titleCol">Attendance for <select id="classtoadd" class="form-control"></select></h3>
+								<p class="alert alert-danger" id="alertMessage2"></p>
 								<div class="scrollit">
 									<table class="table table-striped table-responsive"  id="example">
 										<thead>
