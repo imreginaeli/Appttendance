@@ -14,8 +14,7 @@ background: linear-gradient(#275670, #122B41);
 	height: 75px;
 	width: 100%;
 	position: fixed;
-	z-index: 1000;
-	margin-top: -75px;
+	top: 0px;
 	}
 
 #bannerheader{
