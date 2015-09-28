@@ -45,11 +45,6 @@ $(document).ready(function(){
 					} else {
 						$('.go-top').fadeOut(200);
 					}
-					
-					if(($(this).scrollTop() > 5))
-					{
-						$('.menu').hide(500);
-					}
 				});
 				
 				// Animate the scroll to top
