@@ -13,7 +13,7 @@ background: linear-gradient(#275670, #122B41);
 			background: -ms-linear-gradient(#275670, #122B41);
 	height: 75px;
 	width: 100%;
-	position: fixed;
+	position: absolute;
 	z-index: 1000;
 	top: 0px;
 	}
