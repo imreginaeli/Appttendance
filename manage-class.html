@@ -191,7 +191,7 @@
 			}
 		</style>
 		<script>
-		$(document).ready(function(){
+			$(document).ready(function(){	
 			$('body').css('display', 'none');
 				$('body').fadeIn(500);
 			
@@ -273,14 +273,12 @@
 					
 					$('#example tbody').on('click', 'tr', function () {
 						classid = $('td', this).eq(0).text();
-						subjcode = $('td', this).eq(1).text();
-						coursetitle = $('td', this).eq(2).text();
-						day = $('td', this).eq(3).text();
-						time = $('td', this).eq(4).text();
-						rm = $('td', this).eq(5).text();
+						coursetitle = $('td', this).eq(1).text();
+						day = $('td', this).eq(2).text();
+						time = $('td', this).eq(3).text();
+						rm = $('td', this).eq(4).text();
 						
 						$("#disClassId").val(classid);
-						$("#disSubjCode").val(subjcode);
 						$("#disCourseTitle").val(coursetitle);
 						$("#disDay").val(day);
 						$("#disTime").val(time);
@@ -423,7 +421,7 @@
 						<ul>
 							<li id="home"><span class="glyphicon glyphicon-home menu-glyph"></span> Home</li>
 							<li id="manageclass"><span class="glyphicon glyphicon-list-alt menu-glyph" ></span> Manage Class</li>
-							<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Check attendance</li>
+							<li id="takeattendance"><span class="glyphicon glyphicon-check menu-glyph"></span> Take attendance</li>
 							<li id="genearatereport"><span class="glyphicon glyphicon-file menu-glyph"></span> Generate Report</li>
 							<li id="logout"><span class="glyphicon glyphicon-log-out menu-glyph"></span> Log out</li>
 						</ul>
@@ -554,12 +552,8 @@
 											<td><input type="text" id="txtRoom" name="txtRoom" class="form-control" placeholder="Room number"></td><br>
 										</tr>
 										<tr>
-											<td><label for="instructor">Instructor:</label></td>
+											<td><label for="instructor"Instructor:</label></td>
 											<td><input type="text" id="txtInstructor" name="txtInstructor" class="form-control" placeholder="Instructor"></td>
-										</tr>
-										<tr>
-											<td><label for="instructor">Academic Year:</label></td>
-											<td><input type="text" id="txtAcadYear" name="txtAcadYear" class="form-control" placeholder="Academic Year"></td>
 										</tr>
 									</table>
 								</form>
@@ -583,8 +577,6 @@
 							<form id="frmEdit">
 								<label>Class Code:</label>
 								<input type="text" placeholder="Class Code" class="form-control btn-center" id="disClassId" name="disClassId">
-								<label>Subject Code:</label>
-								<input type="text" placeholder="Subject Code" class="form-control btn-center" id="disSubjCode" name="disSubjCode">
 								<label>Course Title:</label>
 								<input type="text" placeholder="Course Title" class="form-control btn-center" id="disCourseTitle" name="disCourseTitle">
 								<label>Day:</label>

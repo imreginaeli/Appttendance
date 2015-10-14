@@ -34,31 +34,25 @@
 						dataType: 'html',
 						data: $('#frmLogin').serialize(),
 						success: function(data){
-							$.each(JSON.parse(data), function(key, value) {
-								utype = value['usertype'];
-								ufname = value['firstname'];
-								ulname = value['lastname'];
-							});	
-							if(utype=='admin'){
-								localStorage.setItem('userlog', ufname + ' ' + ulname);
-								localStorage.setItem('user', utype);
+							if(data=='admin'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								localStorage.setItem('user', data);
 								username = localStorage.getItem('userappttendance');
 								event.preventDefault();
 								newLocation = 'adminpage.html';
 								$('body').fadeOut(500, newpage);
 							}
-							else if(utype=='staff'){
-								localStorage.setItem('userlog', ufname + ' ' + ulname);
-								localStorage.setItem('user', utype);
+							else if(data=='staff'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								localStorage.setItem('user', data);
 								username = localStorage.getItem('userappttendance');
 								event.preventDefault();
 								newLocation = 'menu.html';
 								$('body').fadeOut(500, newpage);
 							}
-							else if(utype=='student'){
-								localStorage.setItem('userlog', ufname + ' ' + ulname);
-								localStorage.setItem('user', utype);
-								localStorage.setItem('studno', $('#txtUsername').val());
+							else if(data=='student'){
+								localStorage.setItem('userlog', $('#txtUsername').val());
+								localStorage.setItem('user', data);
 								username = localStorage.getItem('userappttendance');
 								event.preventDefault();
 								newLocation = 'studentpage.html';
