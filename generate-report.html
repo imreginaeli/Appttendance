@@ -338,7 +338,7 @@
 					{
 						$.ajax({
 							type: 'GET',
-							url: 'generatereportbyclass.php',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/generatereportbyclass.php',
 							dataType: 'html',
 							data: {classid: $('#genclassid').val(), fromdate: selectedfromdate, todate: selectedtodate},
 							success: function(data){
@@ -354,7 +354,7 @@
 						
 						$.ajax({
 							type: 'GET',
-							url: 'displayclassinfo.php',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassinfo.php',
 							dataType: 'html',
 							data: {classid1: $('#genclassid').val()},
 							success: function(data){

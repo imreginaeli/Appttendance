@@ -225,7 +225,7 @@
 					$('#classtoadd').toggle(500);
 					$('#okClass').toggle(500);
 				});
-				$.getJSON("displayclass.php", function(data)
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displayclass.php", function(data)
 					{
 						$.each(data, function(key, value) {
 							$("#classtoadd").append('<option value='+value['id']+'>'+value['id']+'<option>');				
@@ -234,7 +234,7 @@
 				console.log("It Works");
 				var id;
 				
-				$.getJSON("displaystudent.php", function(data)
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displaystudent.php", function(data)
          		{
 					$.each(data, function(key, value) {
 						$("#tblBody").append('<tr><td>'+value['id']+'</td><td>'+value['lastname']+'</td><td>'+value['firstname']+'</td><td>'+value['course']+'</td><td>'+value['year']+'</td><td>'+value['contact']+'</td><td>'+value['email']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button></td></tr>');					
@@ -276,7 +276,7 @@
 				$('#okClass').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'addstudentclass.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/addstudentclass.php',
 						dataType: "html",  
 						data: {studno: $('#disId').val(), lastname: $('#disLastname').val(), firstname: $('#disFirstname').val(), classid: $('#classtoadd').val()},
 						success:function(data) {						
@@ -292,7 +292,7 @@
 				$('#btnSubmit').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'addstudent.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/addstudent.php',
 						dataType: "html",  
 						data: $('#frmAddStudent').serialize(),
 						success:function(data) {
@@ -308,7 +308,7 @@
 				$('#btnUpdate').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'editstudent.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editstudent.php',
 						dataType: "html",  
 						data: $('#frmEdit').serialize(),
 						success:function(data) {
@@ -324,7 +324,7 @@
 				$('#btnConfirmDelete').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'deletestudent.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deletestudent.php',
 						dataType: "html",  
 						data: 'delete_id='+id,
 						success:function(data) {

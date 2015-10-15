@@ -249,7 +249,7 @@
 				msg2.fadeIn(500).show();
 				$.ajax({
 					type: 'GET',
-					url: 'displayclassquery.php',
+					url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassquery.php',
 					dataType: 'html',
 					data: {instruct: instruct},
 					success: function(data){
@@ -291,7 +291,7 @@
 						$('#classHere').html(classid);
 						$.ajax({
 							type: 'GET',
-							url: 'displaystudentclass.php',
+							url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentclass.php',
 							dataType: 'html',
 							data: {classid1: classid},
 							success: function(data){
@@ -351,7 +351,7 @@
 					
 						$.ajax({
 							type:'POST',
-							url:'addclass.php',
+							url:'http://gordoncollegeccs.edu.ph/appttendance/addclass.php',
 							dataType: "html",  
 							data: $('#frmAddClass').serialize(),
 							success:function(data) {
@@ -372,7 +372,7 @@
 				$('#btnUpdate').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'editclass.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editclass.php',
 						dataType: "html",  
 						data: $('#frmEdit').serialize(),
 						success:function(data) {
@@ -388,7 +388,7 @@
 				$('#btnConfirmDelete').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'deleteclass.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deleteclass.php',
 						dataType: "html",  
 						data: 'delete_id='+classid,
 						success:function(data) {

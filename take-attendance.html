@@ -353,7 +353,7 @@
 					msg2.fadeIn(500).show();
 						$.ajax({
 						type: 'GET',
-						url: 'displaystudentclass.php',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentclass.php',
 						dataType: 'html',
 						data: {classid1: classid},
 						success: function(data){
@@ -366,7 +366,7 @@
 					});
 					$.ajax({
 						type: 'GET',
-						url: 'displayclassinfo.php',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassinfo.php',
 						dataType: 'html',
 						data: {classid1: classid},
 						success: function(data){
@@ -392,7 +392,7 @@
 				
 				$.ajax({
 					type: 'GET',
-					url: 'displayclassquery.php',
+					url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassquery.php',
 					dataType: 'html',
 					data: {instruct: user},
 					success: function(data){
@@ -420,7 +420,7 @@
 					$('#saving').text('Saving attendance...').fadeIn(500);
 					$.ajax({
 						type: 'POST',
-						url: "addattendance.php",
+						url: "http://gordoncollegeccs.edu.ph/appttendance/addattendance.php",
 						dataType: 'html',
 						data: {name1 : sendName , attendance1 : sendAttendance, classid1: $('#classtoadd').val()},
 						success : function(data){
@@ -436,7 +436,7 @@
 					$('#saving').text('Saving attendance...').fadeIn(500);
 					$.ajax({
 						type: 'POST',
-						url: "alladdattendance.php",
+						url: "http://gordoncollegeccs.edu.ph/appttendance/alladdattendance.php",
 						dataType: 'html',
 						data: {name1 : JSON.stringify(arrName1) , classid1: $('#classtoadd').val()},
 						success : function(data){

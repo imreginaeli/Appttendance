@@ -234,7 +234,7 @@
 				msg2.removeClass('alert alert-danger');
 				msg2.addClass('alert alert-info');
 				msg2.fadeIn(500).show();
-				$.getJSON("displayaccounts.php", function(data)
+				$.getJSON("http://gordoncollegeccs.edu.ph/appttendance/displayaccounts.php", function(data)
          		{
 					msg2.fadeOut(500).hide();
 					$.each(data, function(key, value) {
@@ -288,7 +288,7 @@
 					
 						$.ajax({
 							type:'POST',
-							url:'addaccount.php',
+							url:'http://gordoncollegeccs.edu.ph/appttendance/addaccount.php',
 							dataType: "html",  
 							data: $('#frmAddStudent').serialize(),
 							success:function(data) {
@@ -309,7 +309,7 @@
 				$('#btnUpdate').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'editaccount.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editaccount.php',
 						dataType: "html",  
 						data: $('#frmEdit').serialize(),
 						success:function(data) {
@@ -327,7 +327,7 @@
 					newPass = $('#txtnewPass').val();
 					$.ajax({
 						type:'POST',
-						url:'editpassword.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editpassword.php',
 						dataType: "html",  
 						data: {disId: id, txtnewPass: newPass},
 						success:function(data) {
@@ -343,7 +343,7 @@
 				$('#btnConfirmDelete').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'deleteaccount.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/deleteaccount.php',
 						dataType: "html",  
 						data: 'delete_id='+id,
 						success:function(data) {

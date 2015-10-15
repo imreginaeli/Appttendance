@@ -288,7 +288,7 @@
 				
 				$.ajax({
 					type: 'GET',
-					url: 'displaystudentinfo.php',
+					url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentinfo.php',
 					data: {userlog: user},
 					dataType: 'html',
 					success: function(data){
@@ -317,7 +317,7 @@
 				$('#btnUpdate').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'editstudent.php',
+						url:'http://gordoncollegeccs.edu.ph/appttendance/editstudent.php',
 						dataType: "html",  
 						data: {id: localStorage.getItem('studno'), contact: $('#disContact').val(), email: $('#disEmail').val()},
 						success:function(data) {
@@ -333,7 +333,7 @@
 				
 				$.ajax({
 						type: 'GET',
-						url: 'studattendance.php',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/studattendance.php',
 						dataType: 'html',
 						data: {studno:localStorage.getItem("fullname")},
 						success: function(data){
@@ -353,7 +353,7 @@
 
 				$.ajax({
 						type: 'GET',
-						url: 'allattendance.php',
+						url: 'http://gordoncollegeccs.edu.ph/appttendance/allattendance.php',
 						dataType: 'html',
 						data: {studno: localStorage.getItem("fullname")},
 						success: function(data){
