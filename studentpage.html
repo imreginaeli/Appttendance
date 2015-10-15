@@ -234,15 +234,11 @@
 				z-index: 500;
 			}
 			
-			#editinfo{
-				padding: 5px;
-				border: 1px solid #31b0d5;
-				border-radius: 2px;
-				padding-bottom: 0px;
-				margin-bottom: 5px;
-				text-indent: 5px;
+			@media(max-width: 768px){
+				#btnExport{
+					display: none;
+				}
 			}
-			
 			@media(max-width: 420px){
 				.form-control{
 					width: 80%;
@@ -256,6 +252,10 @@
 				}
 				.menu{
 					height: auto;
+				}
+				
+				#displayClass{
+					margin-top: 60px;
 				}
 			}
 		</style>
@@ -283,12 +283,12 @@
 					$('body').fadeOut(500, newpage);
 				});
 				
-				user = localStorage.getItem("userlog");
-				var id, lastname, firstname, course, year, contact, email;
+				user = localStorage.getItem("studno");
+				var id, lastname, firstname, course, year, contact, email, course, year, fullname;
 				
 				$.ajax({
 					type: 'GET',
-					url: 'http://gordoncollegeccs.edu.ph/appttendance/displaystudentinfo.php',
+					url: 'displaystudentinfo.php',
 					data: {userlog: user},
 					dataType: 'html',
 					success: function(data){
@@ -298,26 +298,30 @@
 							firstname = value['firstname'];
 							contact = value['contact'];
 							email = value['email'];
-							username = value['username']
+							username = value['username'];
+							course = value['course'];
+							year = value['year'];
+							localStorage.setItem('fullname', value['lastname'] + ', '+value['firstname']);
 							
 							localStorage.setItem("studentid", id);
-							$("#displayinfo").append('<div style="text-indent: 25px;"<p><b>Student number:</b> <span>'+value['username']+'</span></p><p id=/"name/"><b>Name:</b> <span>'+value['firstname']+' '+value['lastname']+'</span></p><p><b>Contact number:</b> <span>'+value['contact']+'</span></p><p><b>Email address:</b> <span>'+value['email']+'</span></p></div>');
+							$("#displayinfo").append('<div style="text-indent: 5px;"><p><b>Student number:</b> <span>'+value['username']+'</span></p><p id=/"name/"><b>Name:</b> <span>'+value['firstname']+' '+value['lastname']+'</span></p><p><b>Contact number:</b> <span>'+value['contact']+'</span></p><p><b>Email address:</b> <span>'+value['email']+'</span></p><p><b>Course:</b> <span>'+value['course']+'</span></p><p><b>Year:</b> <span>'+value['year']+'</span></p></div>');
 						});	
 					}
 				});	
 				
-				
 				$('#btnEdit').click(function(){
 					$('#disContact').val(contact);
+					$('#disEmail').val(email);
 				});
 				
 				$('#btnUpdate').click(function(){
 					$.ajax({
 						type:'POST',
-						url:'http://gordoncollegeccs.edu.ph/appttendance/editstudent.php',
+						url:'editstudent.php',
 						dataType: "html",  
-						data: {id: localStorage.getItem('userlog'), contact: $('#disContact').val()},
+						data: {id: localStorage.getItem('studno'), contact: $('#disContact').val(), email: $('#disEmail').val()},
 						success:function(data) {
+							alert(data);
 							if(data) {   
 									location.reload(this);
 							} else {
@@ -329,9 +333,9 @@
 				
 				$.ajax({
 						type: 'GET',
-						url: 'http://gordoncollegeccs.edu.ph/appttendance/studattendance.php',
+						url: 'studattendance.php',
 						dataType: 'html',
-						data: {studno: localStorage.getItem("studentid")},
+						data: {studno:localStorage.getItem("fullname")},
 						success: function(data){
 							$.each(JSON.parse(data), function(key, value) {
 								$("#tblBody").append('<tr><td>'+value['classid']+'</td><td>'+value['present']+'</td><td>'+value['absent']+'</td><td>'+value['tardy']+'</td></tr>');					
@@ -346,14 +350,13 @@
 						filename: "Appttendance"
 					});
 				});
-				
+
 				$.ajax({
 						type: 'GET',
-						url: 'http://gordoncollegeccs.edu.ph/appttendance/allattendance.php',
+						url: 'allattendance.php',
 						dataType: 'html',
-						data: {studno: localStorage.getItem("studentid")},
+						data: {studno: localStorage.getItem("fullname")},
 						success: function(data){
-	
 							$.each(JSON.parse(data), function(key, value) {
 								$("#divHistory").append('<p class=\"text-primary\"><span class="glyphicon glyphicon-list-alt smallglyph"> </span>'+value['name']+'<span> was marked </span>'+value['attendance']+'<span> in </span>'+value['classid']+'<span> for </span>'+value['date']+'.</p>');					
 							});
@@ -387,7 +390,7 @@
 			
 			<div class="container" id="studentList">
 				<div class="row">
-					<div class="col-md-7" id="displayStudents" style="margin-top: 60px;">
+					<div class="col-md-7" id="displayClass">
 						<div class="wrapdiv">
 							<h3 class="titleCol">Personal Information<button class="btn pull-right" data-toggle="modal" data-target="#editModal" id="btnEdit"><span class="glyphicon glyphicon-pencil smallglyph"></button></h3>
 							<div id="displayinfo">
@@ -442,10 +445,12 @@
 							<p><b>Edit Information</b></p>
 						</div>
 						<div class="modal-body">
-								<div class='bg-info' id="editinfo"><p><span class="glyphicon glyphicon-info-sign smallglyph"></span> You can only edit your contact detail.</p></div>
+								<div class='alert alert-info' id="editinfo"><p><span class="glyphicon glyphicon-info-sign smallglyph"></span> You can only edit your contact detail.</p></div>
 								<form id="frmEdit">
 									<label>Contact:</label>
 									<input type="text" placeholder="Contact" class="form-control btn-center" id="disContact" name="disContact">
+									<label>Email:</label>
+									<input type="text" placeholder="Email" class="form-control btn-center" id="disEmail" name="disEmail">
 								</form>
 								<input type="submit" name="submit" class="btn btn-info form-control btn-block" id="btnUpdate" />
 						</div>
@@ -458,7 +463,7 @@
 			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
 			<div class="container" id="footer">
 				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
-				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6></h6>
+				<h6 class="text-center" id="footerinfo">Old Hospital Road, East Tapinac, Olongapo City<br><span class="glyphicon glyphicon-phone" id="phone"></span> (047)224-6929<br><span class="glyphicon glyphicon-envelope" id="mail"></span> gordoncollegeccs.edu.ph</h6>
 			</div>
 	</body>
 </html>
