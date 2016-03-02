@@ -1,4 +1,4 @@
-<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="gcccsappttendance" version="2.6.0" versionCode="24">
+<widget xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0" id="gcccsappttendance" version="2.7.0" versionCode="25">
 	<script id="gcccsappttendance"/>
 		<name>Appttendance</name>
 		<description>A mobile application that lets user to record an attendance of a class with just one click and save those records on a server for backup.</description>

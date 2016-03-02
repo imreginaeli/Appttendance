@@ -16,7 +16,6 @@
 		<script type="text/javascript" language="javascript" src="js/jquery.dataTables.js"></script>
 		<script src="js/jquery.tabletojson.min.js"></script>
 		<style>
-
 			#wrapper{
 			  left: 0;
 			  margin: 0;
@@ -38,14 +37,12 @@
 				margin-top: 16px;
 				height: auto;
 			}
-
 			.menu ul {
 			  border-top: 1px solid #636366;
 			  list-style: none;
 			  margin: 0;
 			  padding: 0;
 			}
-
 			.menu li {
 			  border-bottom: 1px solid #636366;
 			  font-family: 'Open Sans', sans-serif;
@@ -55,20 +52,17 @@
 			  padding-top: 3px;
 			  font-size: smaller;
 			}
-
 			.menu a {
 			  color: #fff;
 			  font-size: 15px;
 			  text-decoration: none;
 			  text-transform: uppercase;
 			}
-
 			.icon-close {
 			  cursor: pointer;
 			  padding-left: 10px;
 			  padding-top: 10px;
 			}
-
 			.icon-menu {
 			  color: #fff;
 			  cursor: pointer;
@@ -80,7 +74,6 @@
 			  text-decoration: none;
 			  text-transform: uppercase;
 			}
-
 			.icon-menu i {
 			  margin-right: 5px;
 			}
@@ -100,7 +93,6 @@
 				color: #777;
 				margin-top: 0px; 
 				margin-bottom: 10px;
-
 			}
 			
 			input{
@@ -266,36 +258,16 @@
 			}
 		</style>
 		<script>
+		var x;
 			$(document).ready(function(){
-				if(localStorage.getItem("user")!==null)
-				{
-					if(localStorage.getItem("user")=='staff')
-					{
-					
-					}
-					else
-					{
-						alert('Session has expired. Please log in first.');
-						window.location = "login.html";
-					}
-				}
-				else
-				{	
-					alert('Session has expired. Please log in first.');
-					window.location = "login.html";
-				}
-			
 				var d = new Date();
-
 				var month = d.getMonth()+1;
 				var day = d.getDate();
-
 				var output = d.getFullYear() + '/' +
 					(month<10 ? '0' : '') + month + '/' +
 					(day<10 ? '0' : '') + day;
 				
 				var date = new Date(output);
-
 				
 				$('#disDate').text((date.getMonth() + 1) + '/' + date.getDate() + '/' +  date.getFullYear());
 				$('body').css('display', 'none');
@@ -338,7 +310,6 @@
 				});
 				
 				$('#logout').click(function(){
-					localStorage.removeItem('user');
 					localStorage.removeItem('userlog');
 					event.preventDefault();
 					newLocation = 'login.html';
@@ -357,10 +328,13 @@
 				
 				var attendance;
 				var arrName1 = [];
+				var namesToSendAll=[];
 				$('#classtoadd').change(function(){
+					namesToSendAll=[];
+					x=[];
+					
 					arrName = [];
 					arrAttendance = [];
-					arrName1 = [];
 					table
 							.clear()
 							.draw();
@@ -381,6 +355,8 @@
 								msg2.fadeOut(500).hide();
 								$("#tblBody").append('<tr><td>'+value['lastname']+', '+value['firstname']+'</td><td></td><td><button class="btn btn-success" onclick="localStorage.setItem(\'attend\',\'Present\'); $(this).toggleClass(\'btn-success-selected\');$(this).next().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">P</button><button class="btn btn-danger" onclick="localStorage.setItem(\'attend\',\'Absent\'); $(this).toggleClass(\'btn-danger-selected\');$(this).next().removeClass(\'btn-warning-selected\').addClass(\'btn-warning\');$(this).prev().removeClass(\'btn-success-selected\').addClass(\'btn-success\');">A</button><button class="btn btn-warning" onclick="localStorage.setItem(\'attend\',\'Tardy\'); $(this).toggleClass(\'btn-warning-selected\');$(this).prev().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">T</button></td></tr>');
 							arrName1.push(value['lastname']+', '+value['firstname']);
+							namesToSendAll.push(value['lastname']+', '+value['firstname'])
+							x=namesToSendAll
 						});	
 						}
 					});
@@ -398,7 +374,6 @@
 								time = value['time'];
 								rm = value['rm'];
 								instructor = value['instructor'];
-
 								$('#txtSubjCode').text(subjcode);
 								$('#txtCourseTitle').text(coursetitle);
 								$('#txtSchedule').text(day + ' ' + time);
@@ -424,26 +399,35 @@
 				var arrName = [];
 				var arrAttendance = [];
 				var sendName = "";
+				var namesToSend= [];
+				var attToSend = [];
 				var sendAttendance = "";
 				$('#example tbody').on('click', 'tr', function () {
 					name = $('td', this).eq(0).text();
 					attendance = localStorage.getItem("attend");
+					namesToSend.push(name)
+					attToSend.push(attendance)
+					
 					
 					arrName.push(name);
 					arrAttendance.push(attendance);
 					
 					sendName = JSON.stringify(arrName);
 					sendAttendance = JSON.stringify(arrAttendance);
+					x=sendName;
+					
 				});
 				
 				$('#btnAddAttendance').click(function(){
 					$('#saving').text('Saving attendance...').fadeIn(500);
+					
 					$.ajax({
 						type: 'POST',
 						url: "http://gordoncollegeccs.edu.ph/appttendance/addattendance.php",
-						dataType: 'html',
-						data: {name1 : sendName , attendance1 : sendAttendance, classid1: $('#classtoadd').val()},
+						dataType: 'JSON	',
+						data: {name1 : namesToSend , attendance1 : attToSend, classid1: $('#classtoadd').val()},
 						success : function(data){
+							
 							$('#saving').removeClass('alert alert-info');
 							$('#saving').addClass('alert alert-success');
 							$('#saving').text('Attendance successfully saved.');
@@ -454,12 +438,15 @@
 				
 				$('#btnAll').click(function(){
 					$('#saving').text('Saving attendance...').fadeIn(500);
+					x = [];
+					x =namesToSendAll;
 					$.ajax({
 						type: 'POST',
 						url: "http://gordoncollegeccs.edu.ph/appttendance/alladdattendance.php",
 						dataType: 'html',
-						data: {name1 : JSON.stringify(arrName1) , classid1: $('#classtoadd').val()},
+						data: {name1 : namesToSendAll , classid1: $('#classtoadd').val()},
 						success : function(data){
+							
 							$('#saving').removeClass('alert alert-info');
 							$('#saving').addClass('alert alert-success');
 							$('#saving').text('Attendance successfully saved.');
@@ -471,7 +458,6 @@
 				$('#saving').click(function(){
 					$(this).fadeOut();
 				});
-
 			});
 		</script>
 	</head>
