@@ -194,6 +194,16 @@
 					});
 				  });
 				
+				if(localStorage.getItem("userlog")!==null)
+				{
+					
+				}
+				else
+				{	
+					alert('Please login first.');
+					window.location = "login.html";
+				}
+				
 				$('#home').click(function(){
 					location.href="menu.html";
 				});
@@ -215,6 +225,7 @@
 				});
 				
 				$('#logout').click(function(){
+				localStorage.removeItem('user');
 					localStorage.removeItem('userlog');
 					location.href="login.html";
 				});

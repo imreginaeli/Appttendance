@@ -267,6 +267,24 @@
 		</style>
 		<script>
 			$(document).ready(function(){
+				if(localStorage.getItem("user")!==null)
+				{
+					if(localStorage.getItem("user")=='staff')
+					{
+					
+					}
+					else
+					{
+						alert('Session has expired. Please log in first.');
+						window.location = "login.html";
+					}
+				}
+				else
+				{	
+					alert('Session has expired. Please log in first.');
+					window.location = "login.html";
+				}
+			
 				var d = new Date();
 
 				var month = d.getMonth()+1;
@@ -320,6 +338,7 @@
 				});
 				
 				$('#logout').click(function(){
+					localStorage.removeItem('user');
 					localStorage.removeItem('userlog');
 					event.preventDefault();
 					newLocation = 'login.html';

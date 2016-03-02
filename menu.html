@@ -13,6 +13,24 @@
 	<script src="js/main.js"></script>
 	<script>
 		$(document).ready(function(){
+			if(localStorage.getItem("user")!==null)
+				{
+					if(localStorage.getItem("user")=='staff')
+					{
+					
+					}
+					else
+					{
+						alert('Session has expired. Please log in first.');
+						window.location = "login.html";
+					}
+				}
+				else
+				{	
+					alert('Session has expired. Please log in first.');
+					window.location = "login.html";
+				}
+		
 			user = localStorage.getItem("userlog");
 			
 			$('#userHere').html(user);

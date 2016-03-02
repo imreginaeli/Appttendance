@@ -203,6 +203,24 @@
 					});
 				  });
 				  
+				if(localStorage.getItem("user")!==null)
+				{
+					if(localStorage.getItem("user")=='staff')
+					{
+					
+					}
+					else
+					{
+						alert('Session has expired. Please log in first.');
+						window.location = "login.html";
+					}
+				}
+				else
+				{	
+					alert('Session has expired. Please log in first.');
+					window.location = "login.html";
+				} 
+				 
 				function newpage() {
 					window.location = newLocation;
 				}
@@ -232,6 +250,7 @@
 				});
 				
 				$('#logout').click(function(){
+				localStorage.removeItem('user');
 					localStorage.removeItem('userlog');
 					event.preventDefault();
 					newLocation = 'login.html';

@@ -205,6 +205,28 @@
 				display: none;
 			}
 			
+			#selectClass{
+				    display: inline-block;
+				padding: 6px 12px;
+				margin-bottom: 0;
+				font-size: 14px;
+				font-weight: 400;
+				line-height: 1.42857143;
+				text-align: center;
+				white-space: nowrap;
+				vertical-align: middle;
+				-ms-touch-action: manipulation;
+				touch-action: manipulation;
+				cursor: pointer;
+				-webkit-user-select: none;
+				-moz-user-select: none;
+				-ms-user-select: none;
+				user-select: none;
+				background-image: none;
+				border: 1px solid transparent;
+				border-radius: 2px;
+			}
+			
 			@media(max-width: 420px){
 				#alertDL{
 					display: none;
@@ -226,6 +248,24 @@
 		</style>
 		<script>
 			$(document).ready(function(){
+				if(localStorage.getItem("user")!==null)
+				{
+					if(localStorage.getItem("user")=='staff')
+					{
+					
+					}
+					else
+					{
+						alert('Session has expired. Please log in first.');
+						window.location = "login.html";
+					}
+				}
+				else
+				{	
+					alert('Session has expired. Please log in first.');
+					window.location = "login.html";
+				}
+			
 				var d = new Date();
 
 				var month = d.getMonth()+1;
@@ -264,6 +304,7 @@
 				});
 				
 				$('#logout').click(function(){
+				localStorage.removeItem('user');
 					localStorage.removeItem('userlog');
 					location.href="login.html";
 				});
@@ -273,23 +314,7 @@
 				var selectedtodate="";
 				var countRow = 0;
 				$('#attendanceList').hide();
-				
-				$('#genstudno').prop("disabled", true);
-				$('#genclassid').prop("disabled", true);
-				$('#selectStudent').click(function(){
-					query = "Student";
-					$('#genstudno').prop("disabled", false);
-					$('#genclassid').prop("disabled", true);
-					
-					$('#formStudent').removeClass('form-bordered');
-					$('#formStudent').addClass('selectedform');
-					$('#formClass').removeClass('selectedform');
-					$('#formClass').addClass('form-bordered');
-				
-					$('#genstudno').val('');
-				});
-				
-				$('#selectClass').click(function(){
+
 					query = "Class";
 					$('#genclassid').prop("disabled", false);
 					$('#genstudno').prop("disabled", true);
@@ -299,9 +324,6 @@
 					$('#formStudent').removeClass('selectedform');
 					$('#formStudent').addClass('form-bordered');
 					
-					$('#genstudno').val('');
-				});
-				
 				$('#menu1next').click(function(){
 					$('#limenu1').removeClass('active');
 					$('#limenu2').addClass('active');
@@ -433,7 +455,7 @@
 								<div class="tab-content">
 									<div id="menu1" class="tab-pane fade in active">
 										<div class="form-bordered" id="formClass">
-											<button class="btn btn-muted" style="display: inline-block;" id="selectClass">Class</button><input type="text" id="genclassid" name="genclassid" class="form-control" placeholder="Class Id" style="display: inline-block;">
+											<div style="display: inline-block;" id="selectClass">Class</div><input type="text" id="genclassid" name="genclassid" class="form-control" placeholder="Class Id" style="display: inline-block;">
 										</div>
 										<div class="form-bordered">
 											<a data-toggle="pill" href="#menu2"><button class="btn btn-warning" style="display: inline-block;" id="menu1next">Next</button></a>
