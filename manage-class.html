@@ -247,6 +247,8 @@
 				msg2.removeClass('alert alert-danger');
 				msg2.addClass('alert alert-info');
 				msg2.fadeIn(500).show();
+				
+					
 				$.ajax({
 					type: 'GET',
 					url: 'http://gordoncollegeccs.edu.ph/appttendance/displayclassquery.php',
@@ -255,11 +257,13 @@
 					success: function(data){
 						$.each(JSON.parse(data), function(key, value) {
 							msg2.fadeOut(500).hide();
-							$("#tblBody").append('<tr><td>'+value['id']+'</td><td>'+value['subjcode']+'</td><td>'+value['coursetitle']+'</td><td>'+value['day']+'</td><td>'+value['time']+'</td><td>'+value['rm']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button><button class="btn btn-info" onclick="$(\'#studentDisplay\').fadeIn(500); $(\'#addClass\').css(\'margin-top\', \'-70px\');"> <span class="glyphicon glyphicon-eye-open smallglyph"></span></button></td></tr>');					
+							$("#tblBody").append('<tr><td>'+value['id']+'</td><td>'+value['subjcode']+'</td><td>'+value['coursetitle']+'</td><td>'+value['day']+'</td><td>'+value['time']+'</td><td>'+value['rm']+'</td><td><button class=\'btn btn-success\' data-toggle="modal" data-target="#editModal"><span class="glyphicon glyphicon-pencil smallglyph"></button><button class=\'btn btn-danger\' data-toggle="modal" data-target="#alertModal"><span class="glyphicon glyphicon-remove smallglyph"></button><button class="btn btn-info" id="btnDisplayStudents" onclick="$(\'html, body\').animate({scrollTop: $(\'#studentDisplay\').offset().top}, 1000);$(\'#studentDisplay\').fadeIn(500); $(\'#addClass\').css(\'margin-top\', \'-70px\'); "> <span class="glyphicon glyphicon-eye-open smallglyph"></span></button></td></tr>');					
 						});	
 						
 						$('#example').dataTable();
 					var table = $('#example').DataTable();
+					
+					
 					
 					$('#example tbody').on( 'click', 'tr', function () {
 						if ( $(this).hasClass('selected') ) {
@@ -356,6 +360,7 @@
 							data: $('#frmAddClass').serialize(),
 							success:function(data) {
 								if(data) {   
+										alert(data);
 										msg.html('<span class="glyphicon glyphicon-info-sign smallglyph"></span> Class successfully added.');
 										msg.removeClass('alert alert-info');
 										msg.addClass('alert alert-success');

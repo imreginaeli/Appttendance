@@ -29,6 +29,13 @@ $(document).ready(function(){
 					newLocation = 'generate-report.html';
 					$('body').fadeOut(500, newpage);
 				});
+				
+				$('#logout').click(function(){
+					localStorage.removeItem('userlog');
+					event.preventDefault();
+					newLocation = 'login.html';
+					$('body').fadeOut(500, newpage);
+				});
 			
 			$('.wrapcol').mouseenter(function(){
 				$(this).css('background-color', '#FFA500');
