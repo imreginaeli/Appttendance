@@ -344,6 +344,11 @@
 				$('#example_length').hide();
 				$('#example_filter').hide();
 				
+				$('#dateStart').change(function(){
+					$('#dtFrom').text($('#dateStart').val());
+					selectedfromdate = $('#dateStart').val();
+				});
+				
 				var attendance;
 				var arrName1 = [];
 				var namesToSendAll=[];
@@ -371,7 +376,7 @@
 						success: function(data){
 							$.each(JSON.parse(data), function(key, value) {
 								msg2.fadeOut(500).hide();
-								$("#tblBody").append('<tr><td>'+value['lastname']+', '+value['firstname']+'</td><td></td><td><button class="btn btn-success" onclick="localStorage.setItem(\'attend\',\'Present\'); $(this).toggleClass(\'btn-success-selected\');$(this).next().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">P</button><button class="btn btn-danger" onclick="localStorage.setItem(\'attend\',\'Absent\'); $(this).toggleClass(\'btn-danger-selected\');$(this).next().removeClass(\'btn-warning-selected\').addClass(\'btn-warning\');$(this).prev().removeClass(\'btn-success-selected\').addClass(\'btn-success\');">A</button><button class="btn btn-warning" onclick="localStorage.setItem(\'attend\',\'Tardy\'); $(this).toggleClass(\'btn-warning-selected\');$(this).prev().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">T</button></td></tr>');
+								$("#tblBody").append('<tr><td>'+value['lastname']+', '+value['firstname']+'</td><td></td><td><button class="btn btn-success btnPresent" onclick="localStorage.setItem(\'attend\',\'Present\'); $(this).toggleClass(\'btn-success-selected\');$(this).next().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">P</button><button class="btn btn-danger btnAbsent" onclick="localStorage.setItem(\'attend\',\'Absent\'); $(this).toggleClass(\'btn-danger-selected\');$(this).next().removeClass(\'btn-warning-selected\').addClass(\'btn-warning\');$(this).prev().removeClass(\'btn-success-selected\').addClass(\'btn-success\');">A</button><button class="btn btn-warning btnTardy" onclick="localStorage.setItem(\'attend\',\'Tardy\'); $(this).toggleClass(\'btn-warning-selected\');$(this).prev().removeClass(\'btn-danger-selected\').addClass(\'btn-danger\');">T</button></td></tr>');
 							arrName1.push(value['lastname']+', '+value['firstname']);
 							namesToSendAll.push(value['lastname']+', '+value['firstname'])
 							x=namesToSendAll
@@ -443,7 +448,7 @@
 						type: 'POST',
 						url: "http://gordoncollegeccs.edu.ph/appttendance/addattendance.php",
 						dataType: 'JSON	',
-						data: {name1 : namesToSend , attendance1 : attToSend, classid1: $('#classtoadd').val()},
+						data: {name1 : namesToSend , attendance1 : attToSend, classid1: $('#classtoadd').val(), dateset: selectedfromdate},
 						success : function(data){
 							
 							$('#saving').removeClass('alert alert-info');
@@ -455,20 +460,19 @@
 				});
 				
 				$('#btnAll').click(function(){
-					$('#saving').text('Saving attendance...').fadeIn(500);
+					$('.btnPresent').addClass('btn-success-selected');
+					$('.btnAbsent').removeClass('btn-danger-selected');
+					$('.btnTardy').removeClass('btn-warning-selected');
+
 					x = [];
 					x =namesToSendAll;
 					$.ajax({
 						type: 'POST',
 						url: "http://gordoncollegeccs.edu.ph/appttendance/alladdattendance.php",
 						dataType: 'html',
-						data: {name1 : namesToSendAll , classid1: $('#classtoadd').val()},
+						data: {name1 : namesToSendAll , classid1: $('#classtoadd').val(), dateset: selectedfromdate},
 						success : function(data){
-							
-							$('#saving').removeClass('alert alert-info');
-							$('#saving').addClass('alert alert-success');
-							$('#saving').text('Attendance successfully saved.');
-							$('#saving').fadeIn();
+
 						}
 					});
 				});
@@ -483,7 +487,7 @@
 	<body>
 			<nav class="navbar navbar-default navbar-fixed-top" role="navigation">
 				<div class="container icon-menu" id="banner">		
-						<span class="glyphicon glyphicon-th-list menu-glyph"></span><p class="text-center" style="margin-top: -23px;">&nbsp&nbsp Appttendance</p>
+						<span class="glyphicon glyphicon-th-list menu-glyph"></span><img src="images/logo.png" style="margin-left: auto; margin-right: auto; display: block; width: 50px; margin-top: -40px;" />
 					<div class="menu">
 						<!-- Menu -->
 						<ul>
@@ -510,7 +514,7 @@
 				<div class="row">
 					<div class="col-md-12"  id="displayClass" >
 						<div class="wrapdiv">
-							<h3 class="titleCol">Attendance for <select id="classtoadd" class="form-control"></select><br><span>Today's Date: <span id="disDate"></span></span></h3>
+							<h3 class="titleCol">Attendance for <select id="classtoadd" class="form-control"></select><br><span>Date: <input type="date" id="dateStart" name="dateStart" class="form-control" style="width: 250px;"></span></h3>
 								<p class="alert alert-danger" id="alertMessage2"></p>
 						</div>
 					</div>
