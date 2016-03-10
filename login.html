@@ -35,6 +35,7 @@
 						data: $('#frmLogin').serialize(),
 						success: function(data){
 							$.each(JSON.parse(data), function(key, value) {
+								uid = value['id'];
 								utype = value['usertype'];
 								ufname = value['firstname'];
 								ulname = value['lastname'];
@@ -48,6 +49,7 @@
 								$('body').fadeOut(500, newpage);
 							}
 							else if(utype=='staff'){
+								localStorage.setItem('uid', uid);
 								localStorage.setItem('userlog', ufname + ' ' + ulname);
 								localStorage.setItem('user', utype);
 								username = localStorage.getItem('userappttendance');

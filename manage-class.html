@@ -250,7 +250,8 @@
 				});
 				
 				$('#logout').click(function(){
-				localStorage.removeItem('user');
+					localStorage.removeItem('user');
+					localStorage.removeItem('uid');
 					localStorage.removeItem('userlog');
 					event.preventDefault();
 					newLocation = 'login.html';
@@ -466,27 +467,10 @@
 			
 			<div class="container" id="studentList">
 				<div class="row">
-					<div class="col-md-7" id="displayStudents">
+					<div class="col-md-7" id="displayStudents" style="margin-bottom: 75px;">
 						<div class="wrapdiv">
-							<h3 class="titleCol">Class <button id="btnImport2" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
+							<h3 class="titleCol">Class</h3>
 								<p class="alert alert-danger" id="alertMessage2"></p>
-								<form class="form-horizontal well" action="importstudentclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport2">
-									<fieldset>
-										<legend>Import CSV/Excel file</legend>
-										<div class="control-group">
-											<div class="controls">
-												<input type="file" name="file" id="file" class="input-large">
-											</div>
-										</div>
-				 
-										<div class="control-group">
-											<div class="controls">
-											<button type="submit" id="submit" name="Import2" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
-											</div>
-										</div>
-									</fieldset>
-								</form>
-								
 								<div class="scrollit">
 									<table class="table table-striped table-responsive"  id="example">
 										<thead>
@@ -511,7 +495,7 @@
 					<div class="col-md-5" style="margin-bottom: 75px; display: none;" id="studentDisplay" >
 						<div class="wrapdiv">
 							<div class="form">
-							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Students for Class <span id="classHere"></span> </h3>
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Students for Class </h3>
 								<div class="scrollit">
 									<table class="table table-striped table-responsive"  id="example2">
 										<thead>
@@ -532,23 +516,7 @@
 					<div class="col-md-5" style="margin-bottom: 75px;" id="addClass">
 						<div class="wrapdiv">
 							<div class="form">
-							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Class <button id="btnImport" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
-								<form class="form-horizontal well" action="importclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
-									<fieldset>
-										<legend>Import CSV/Excel file</legend>
-										<div class="control-group">
-											<div class="controls">
-												<input type="file" name="file" id="file" class="input-large">
-											</div>
-										</div>
-				 
-										<div class="control-group">
-											<div class="controls">
-											<button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
-											</div>
-										</div>
-									</fieldset>
-								</form>
+							<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Class </h3>
 								<p class="alert alert-danger" id="alertMessage"></p>
 								<form class="form-inline" id="frmAddClass">
 									<table style="margin-left: 15px">
