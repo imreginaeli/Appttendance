@@ -419,19 +419,19 @@
 					</div>
 				</div>
 			-->
-							<div class="tabpills" id="studentHeader" style="margin-top: 75px;">
+						<div class="container" id="studentHeader" style="margin-bottom: 75px;">
+							<div class="tabpills" id="studentHeader">
 								<div class="wrapdiv">
 									<ul class="nav nav-pills nav-justified" style="margin-bottom: 10px;">
 										<li id="limenu1" class="active"><a data-toggle="pill" href="#menu1">Manage Accounts</a></li>
 										<li id="limenu2"><a data-toggle="pill" href="#menu2">Manage Class</a></li>
 									</ul>
 								</div>
-							</div>
-								
-							<div class="tab-content">
-								<div id="menu1" class="tab-pane fade in active">
-									<div class="container" id="studentList">
-										<div class="row">
+							  
+								<div class="tab-content">
+									<div id="menu1" class="tab-pane fade in active">
+										<div class="container" id="studentList">
+											<div class="row">
 												<div class="col-md-7" id="displayStudents" style="margin-bottom: 75px;">
 													<div class="wrapdiv">
 														<h3 class="titleCol">Accounts</h3>
@@ -456,10 +456,10 @@
 													</div>
 												</div>
 												
-												<div class="col-md-5" style="margin-top: -50px; margin-bottom: 75px;">
+												<div class="col-md-5" style="margin-bottom: 75px;">
 													<div class="wrapdiv">
 														<div class="form">
-														<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Account <a href="demoimportuser.csv" download><button id="btnDownload" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a><button id="btnImport" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
+														<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Add Account <a href="sample_accounts.csv" download><button id="btnDownload" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a><button id="btnImport" class="btn btn-success form-control pull-right"><span class="glyphicon glyphicon-upload smallglyph" style="font-size: 15px;"></span></button></h3>
 															<form class="form-horizontal well" action="importusers.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
 																<fieldset>
 																	<legend>Import CSV/Excel file</legend>
@@ -523,52 +523,97 @@
 										</div>
 									</div>
 									<div id="menu2" class="tab-pane fade">
-										<div class="row">
-											<div class="col-md-12">
-												<div class="wrapdiv">
-													<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Subject Loads <a href="demoimportstudentclass.csv" download><button id="btnDownload3" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a></h3>
-													<form class="form-horizontal well" action="importclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
-														<fieldset>
-															<legend>Import CSV file</legend>
-															<div class="control-group">
-																<div class="controls">
-																	<input type="file" name="file" id="file" class="input-large">
-																</div>
-															</div>
-									 
-															<div class="control-group">
-																<div class="controls">
-																<button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
-																</div>
-															</div>
-														</fieldset>
-													</form>
-												</div>
-												
-												<div class="wrapdiv" style="margin-bottom: 75px;">
-													<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Students in Class <span id="classHere"></span> <a href="demoimportclass.csv" download><button id="btnDownload2" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a></h3>
-													<form class="form-horizontal well" action="importstudentclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport2">
-														<fieldset>
-															<legend>Import CSV file</legend>
-															<div class="control-group">
-																<div class="controls">
-																	<input type="file" name="file" id="file" class="input-large">
-																</div>
-															</div>
-									 
-															<div class="control-group">
-																<div class="controls">
-																	<button type="submit" id="submit" name="Import2" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
-																</div>
-															</div>
-														</fieldset>
-													</form>
-												</div>
-											</div>
+										<div class="wrapdiv">
+											<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Subject Loads <a href="sample_loading.csv" download><button id="btnDownload3" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a></h3>
+											<form class="form-horizontal well" action="importclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport">
+												<fieldset>
+													<legend>Import CSV file</legend>
+													<div class="control-group">
+														<div class="controls">
+															<input type="file" name="file" id="file" class="input-large">
+														</div>
+													</div>
+							 
+													<div class="control-group">
+														<div class="controls">
+														<button type="submit" id="submit" name="Import" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+														</div>
+													</div>
+												</fieldset>
+											</form>
+										</div>
+										
+										<div class="wrapdiv" style="margin-bottom: 75px;">
+											<h3 class="titleCol"><span class="glyphicon glyphicon-plus" id="addglyph"></span> Students in Class <span id="classHere"></span> <a href="sample_studentclass.csv" download><button id="btnDownload2" class="btn btn-info form-control pull-right"><span class="glyphicon glyphicon-save-file smallglyph" style="font-size: 15px;"></span></button></a></h3>
+											<form class="form-horizontal well" action="importstudentclass.php" method="post" name="upload_excel" enctype="multipart/form-data" id="frmImport2">
+												<fieldset>
+													<legend>Import CSV file</legend>
+													<div class="control-group">
+														<div class="controls">
+															<input type="file" name="file" id="file" class="input-large">
+														</div>
+													</div>
+							 
+													<div class="control-group">
+														<div class="controls">
+														<button type="submit" id="submit" name="Import2" class="btn btn-primary button-loading" data-loading-text="Loading...">Upload</button>
+														</div>
+													</div>
+												</fieldset>
+											</form>
 										</div>
 									</div>
 								</div>
-		
+							</div>
+						</div>
+			
+			
+			<!-- Modal -->
+			 <div class="modal fade" id="editModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="myModalLabel">Modal title</h4>
+						</div>
+						<div class="modal-body">
+								<form id="frmEdit">
+									<label>Id:</label> 
+									<input type="text" placeholder="ID" class="form-control btn-center" id="disId" name="disId">
+									<label>Email:</label>
+									<input type="text" placeholder="Email" class="form-control btn-center" id="disEmail" name="disEmail">
+									<label>Usertype:</label>
+									<input type="text" placeholder="Usertype" class="form-control btn-center" id="disUsertype" name="disUsertype">
+								</form>
+						</div>
+						<div class="modal-footer">
+							<input type="submit" name="submit" class="btn btn-info form-control" id="btnUpdate" />
+							<button class="btn btn-info" id="newpass">Reset Password</button><input type="password" id="txtnewPass" name="txtnewPass" placeholder="New Password" class="form-control"><button class="btn btn-primary" id="btnOk">Ok</button>
+							<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="modal fade" id="alertModal" role="dialog">
+				<div class="modal-dialog">
+					  <!-- Modal content-->
+					<div class="modal-content">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title" id="modalHeader"></h4>
+						</div>
+						<div class="modal-body">
+							<p id="modalAlert"></p>
+						</div>
+						<div class="modal-footer">
+							<button class="btn btn-info form-controls" data-dismiss="modal" id="btnConfirmDelete">Yes</button>
+							<button class="btn btn-default" data-dismiss="modal">No</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<a href="#" class="go-top" style="background-color: gray; text-decoration: none;"><span class="glyphicon glyphicon-chevron-up smallglyph"></span></a>
 			<div class="container" id="footer">
 				<p><span class="glyphicon glyphicon-info-sign text-center" id="footerglyph"></span></p>
