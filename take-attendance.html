@@ -329,6 +329,7 @@
 				
 				$('#logout').click(function(){
 					localStorage.removeItem('userlog');
+					localStorage.removeItem('uid');
 					event.preventDefault();
 					newLocation = 'login.html';
 					$('body').fadeOut(500, newpage);
